@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17263d">
+  <title>Escala Kalunga — Planejamento de Folgas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="main" id="inicio">
+    <header class="topbar"><div class="header-brand">Escala Kalunga <span class="header-user">Ideia original · Anderson Almeida</span></div><span class="today-label" id="todayLabel"></span></header>
+    <section class="page-heading" id="dashboard">
+      <div class="heading-icon">▦</div><div><p class="eyebrow">GESTÃO DE EQUIPE</p><h1>Planejamento de Escala de Folga</h1><p class="subtitle">Organize as folgas da equipe de forma simples e eficiente.</p></div>
+    </section>
+
+    <!-- Configuração global da escala e ferramentas de backup -->
+    <section class="panel global-rule-panel" aria-label="Regra trabalhista da escala">
+      <div><p class="eyebrow">CONFIGURAÇÃO INICIAL</p><h2>Regra trabalhista da escala</h2><p class="subtitle">Defina o regime usado para orientar os avisos de descanso. Confira também a convenção coletiva aplicável.</p></div>
+      <label>Regime da equipe<select id="globalRule"><option value="5x2">5x2 — cinco dias de trabalho e dois de descanso</option><option value="6x1">6x1 — seis dias de trabalho e um de descanso</option></select></label>
+      <button class="button primary" id="saveGlobalRule" type="button">Salvar regra</button><div class="backup-actions"><button class="button secondary" id="backupData" type="button">Baixar backup</button><button class="button secondary" id="restoreData" type="button">Restaurar backup</button><input id="restoreFile" type="file" accept="application/json" hidden></div>
+    </section>
+
+    <!-- Indicadores rápidos do mês -->
+    <section class="stats-grid" aria-label="Resumo da escala">
+      <article class="stat-card"><div class="stat-icon blue">♙</div><div><span>Total de colaboradores</span><strong id="totalEmployees">0</strong><small>Na equipe</small></div></article>
+      <article class="stat-card"><div class="stat-icon green">✓</div><div><span>Folgas no período</span><strong id="totalDaysOff">0</strong><small>No mês selecionado</small></div></article>
+      <article class="stat-card"><div class="stat-icon purple">▦</div><div><span>Outros status no período</span><strong id="totalShifts">0</strong><small>Feriado, férias e afastamento</small></div></article>
+      <article class="stat-card"><div class="stat-icon amber">◎</div><div><span>Trabalhando hoje</span><strong id="workingToday">0</strong><small>Sem folga marcada</small></div></article>
+    </section>
+
+    <!-- Área principal: calendário à esquerda e equipe/legenda à direita -->
+    <section class="workspace">
+      <div class="calendar-panel panel">
+        <div class="panel-toolbar">
+          <div class="month-controls"><button class="icon-button" id="prevMonth" aria-label="Mês anterior">‹</button><button class="icon-button" id="nextMonth" aria-label="Próximo mês">›</button><h2 id="monthTitle">Outubro 2026</h2></div>
+          <div class="view-switch" role="group" aria-label="Modo de visualização"><button class="selected" data-mode="month">Mês</button><button data-mode="list">Lista</button></div>
+        </div>
+        <section class="rotation-settings panel"><div class="rotation-intro"><p class="eyebrow">REVEZAMENTO DE DOMINGOS</p><h2>Escala de domingos</h2><p>Distribua os colaboradores entre os dois grupos de revezamento.</p></div><div class="sunday-assignment-area"><div class="sunday-assignment-head"><strong>Colaborador</strong><strong>Grupo de domingo</strong></div><div id="sundayAssignmentList" class="sunday-assignment-list"><p class="empty-state">Cadastre colaboradores para montar os grupos de domingo.</p></div><div id="sundayAssignmentSummary" class="sunday-assignment-summary" aria-live="polite"></div><button class="button primary" id="applySundayRotation" type="button">Aplicar escala de domingos</button></div><small class="rotation-note">Antes de aplicar, confira os colaboradores sem grupo. O revezamento é uma ferramenta de planejamento e não substitui a validação das regras trabalhistas e da convenção coletiva pelo RH.</small></section>
+        <div class="calendar-legend"><span><i class="dot holiday"></i> Feriado</span><span><i class="dot off"></i> Folga</span><span><i class="dot work"></i> Trabalha</span><span><i class="dot vacation"></i> Férias</span><span><i class="dot away"></i> Afastado</span><span class="hint">Clique para alterar · Botão direito para apagar a marcação</span></div>
+        <div id="holidayNotice" class="holiday-notice" aria-live="polite"></div>
+        <div class="filter-row">
+          <label>Buscar colaborador<input id="searchEmployee" type="search" placeholder="Nome ou departamento…"></label>
+          <label>Departamento<select id="departmentFilter"><option value="all">Todos os departamentos</option></select></label>
+          <button class="button secondary" id="clearFilters">Limpar filtros</button>
+        </div>
+        <section class="panel compliance-panel calendar-compliance-panel" aria-live="polite"><div><p class="eyebrow">VERIFICAÇÃO DO MÊS</p><h2>Avisos de escala</h2></div><div id="complianceAlerts" class="compliance-alerts"><p>Cadastre colaboradores para verificar a escala.</p></div></section>
+        <div id="calendarContainer" class="calendar-scroll"></div>
+        <div id="listContainer" class="list-container hidden"></div>
+        <p class="footnote">Dias não confirmados ficam pendentes de acerto. Baixe backups regularmente: limpar os dados do navegador também apaga o armazenamento local.</p><div id="pendingNotice" class="compliance-alert notice"></div><div id="coverageNotice" class="compliance-alerts"></div>
+
+    <!-- Relatório mensal e ações de exportação/impressão -->
+    <section class="panel reports-panel" id="relatorios">
+      <div class="reports-heading"><div><p class="eyebrow">ACOMPANHAMENTO</p><h2>Relatório do período</h2><p class="subtitle">Escolha a escala pronta para consultar, exportar ou imprimir.</p><label>Tipo de relatório<select id="reportType"><option value="folgas">Escala de folgas</option><option value="limpeza">Escala de limpeza</option></select></label></div><div class="report-actions"><button class="button secondary" id="exportCsv">⇩ Exportar CSV</button><button class="button primary" id="printReport">▤ Imprimir relatório</button></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Colaborador</th><th>Departamento</th><th>Feriados</th><th>Folgas</th><th>Trabalha</th><th>Férias</th><th>Afastado</th></tr></thead><tbody id="reportBody"></tbody></table></div>
+    </section>
+      </div>
+      <aside class="right-column">
+        <section class="panel side-panel" id="colaboradores">
+          <div class="section-title"><div><p class="eyebrow">EQUIPE</p><h2>Colaboradores</h2></div><span class="count-badge" id="employeeCount">0</span></div>
+          <p class="panel-description">Adicione pessoas à escala ou remova quem não faz mais parte da equipe.</p>
+          <button class="button primary full" id="openEmployeeModal">＋ Adicionar colaborador</button>
+          <div id="employeeList" class="employee-list"></div>
+        </section>
+        <section class="panel side-panel">
+          <div class="section-title"><div><p class="eyebrow">LEGENDA</p><h2>Status da escala</h2></div></div>
+          <div class="legend-row"><span class="status-pill status-holiday">FE</span><div><strong>Feriado</strong><small>Feriado cadastrado</small></div></div>
+          <div class="legend-row"><span class="status-pill status-off">F</span><div><strong>Folga</strong><small>Dia de folga planejada</small></div></div>
+          <div class="legend-row"><span class="status-pill status-work">T</span><div><strong>Trabalha</strong><small>Dia de trabalho</small></div></div>
+          <div class="legend-row"><span class="status-pill status-vacation">FE</span><div><strong>Férias</strong><small>Período de férias</small></div></div>
+          <div class="legend-row"><span class="status-pill status-away">AF</span><div><strong>Afastado</strong><small>Ausência / afastamento</small></div></div>
+        </section>
+        <section class="tip-card"><div class="tip-icon">✦</div><div><strong>Organize com facilidade</strong><p>Use os filtros para encontrar uma pessoa e confira a cobertura antes de definir novas folgas.</p></div></section>
+      </aside>
+    </section>
+
+    <footer>Escala Kalunga <span>•</span> Planejamento simples para sua equipe <span class="creator-watermark">Ideia original: Anderson Almeida</span></footer>
+  </main>
+
+  <!-- Formulário reutilizado para adicionar e editar colaboradores -->
+  <dialog id="employeeDialog" class="modal"><form id="employeeForm" method="dialog"><div class="modal-heading"><div><p class="eyebrow" id="employeeDialogEyebrow">CADASTRO</p><h2 id="employeeDialogTitle">Novo colaborador</h2></div><button type="button" class="icon-button" id="closeEmployeeModal" aria-label="Fechar">×</button></div><label>Nome completo<input id="employeeName" name="name" required maxlength="80" placeholder="Nome do colaborador"></label><label>Cargo<select id="employeeDepartment" name="department" required><option value="Auxiliar de Loja">Auxiliar de Loja</option><option value="Gerente de Loja">Gerente de Loja</option><option value="Assistente Administrativo">Assistente Administrativo</option><option value="Vendedores">Vendedores</option><option value="Jovem Aprendiz">Jovem Aprendiz</option></select></label><div class="modal-actions"><button type="button" class="button secondary" id="cancelEmployee">Cancelar</button><button type="submit" class="button primary" id="saveEmployeeButton">Adicionar</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

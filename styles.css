@@ -1,0 +1,259 @@
+/*
+ * ESCALA KALUNGA — estilos da aplicação
+ *
+ * Paleta principal e cores dos status ficam no início do arquivo.
+ * Para mudar uma cor global, prefira editar uma variável em :root.
+ * As regras específicas de calendário e impressão ficam nas seções comentadas
+ * mais abaixo; regras posteriores podem substituir regras anteriores.
+ */
+/* 1. Paleta global, tipografia e estrutura básica */
+:root{--navy:#17263d;--navy2:#223652;--blue:#3677e8;--ink:#1d2c43;--muted:#71809a;--line:#e5eaf2;--bg:#f5f7fb;--white:#fff;--green:#b7f0e4;--green-ink:#075e54;--orange:#ffebc7;--orange-ink:#a85708;--softblue:#e2edff;--radius:15px;--shadow:0 5px 20px rgba(30,48,76,.045)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.sidebar{position:fixed;inset:0 auto 0 0;width:228px;background:linear-gradient(160deg,var(--navy),#1b2b43);color:#e8eef8;padding:26px 14px;display:flex;flex-direction:column;z-index:5}.brand{display:flex;align-items:center;gap:11px;color:white;text-decoration:none;font-size:18px;font-weight:750;padding:0 9px 45px}.brand-icon{font-size:27px}.nav{display:grid;gap:7px}.nav-link{display:flex;gap:13px;align-items:center;padding:13px 14px;border-radius:10px;color:#c1cde0;text-decoration:none;transition:.15s}.nav-link span{font-size:20px;width:23px;text-align:center}.nav-link:hover,.nav-link.active{background:#2e64ad;color:#fff}.nav-link.active{box-shadow:inset 3px 0 #78b5ff}.sidebar-bottom{margin-top:auto;border-top:1px solid #3a4960;padding:20px 8px 0;display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;background:#dce8fa;color:#2d62b0;display:grid;place-items:center;font-weight:800}.sidebar-bottom strong,.sidebar-bottom small{display:block}.sidebar-bottom small{color:#a9b8ce;margin-top:3px}.main{margin-left:228px;padding:0 28px 26px;max-width:1900px}.topbar{height:68px;display:flex;align-items:center;justify-content:flex-end;gap:12px;border-bottom:1px solid var(--line);margin:0 -28px 28px;padding:0 28px;background:rgba(255,255,255,.8)}.today-label{color:#60718d;font-size:13px}.icon-button{border:1px solid var(--line);background:#fff;color:#536884;border-radius:9px;width:35px;height:35px;font-size:23px;line-height:1;cursor:pointer;display:inline-grid;place-items:center}.icon-button:hover{border-color:#aac7f5;color:var(--blue)}.mobile-brand{display:none}.page-heading{display:flex;align-items:center;gap:18px;margin-bottom:25px}.heading-icon{font-size:40px;color:#2f4666;background:#e8effb;width:64px;height:64px;border-radius:17px;display:grid;place-items:center}.eyebrow{font-size:10px;letter-spacing:1.3px;color:#7b8aa2;font-weight:800;margin:0 0 5px}h1,h2,p{margin-top:0}h1{font-size:25px;letter-spacing:-.65px;margin:0 0 5px}h2{font-size:17px;letter-spacing:-.25px;margin:0}.subtitle{color:var(--muted);margin:0;font-size:13px}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.stat-card{display:flex;align-items:center;gap:13px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);min-width:0}.stat-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;font-size:21px;flex-shrink:0}.stat-icon.blue{background:#e8f0ff;color:#3677e8}.stat-icon.green{background:#e1f8ee;color:#159b6d}.stat-icon.purple{background:#eeeaff;color:#7658d5}.stat-icon.amber{background:#fff2da;color:#bd780a}.stat-card span,.stat-card small{display:block;color:#74829a;font-size:11px}.stat-card strong{display:block;font-size:25px;line-height:1.3;margin:3px 0}.stat-card small{font-size:10px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:17px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.calendar-panel{min-width:0;overflow:hidden}.panel-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 18px;border-bottom:1px solid var(--line)}.month-controls{display:flex;align-items:center;gap:7px;min-width:0}.month-controls h2{margin-left:8px;white-space:nowrap}.view-switch{display:flex;border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}.view-switch button{border:0;background:transparent;color:#65748d;padding:7px 12px;border-radius:6px;cursor:pointer}.view-switch button.selected{background:var(--blue);color:white}.calendar-legend{display:flex;align-items:center;gap:15px;flex-wrap:wrap;padding:12px 18px;color:#64738d;font-size:11px;border-bottom:1px solid var(--line)}.calendar-legend span{display:flex;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block}.dot.off{background:#0eaa8a}.dot.shift{background:#f4a52e}.dot.normal{background:#b9c4d4}.calendar-legend .hint{margin-left:auto;color:#8a97aa}.filter-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(130px,1fr) auto;align-items:end;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}label{display:grid;gap:6px;font-size:11px;font-weight:700;color:#50617b}input,select{font:inherit;color:var(--ink);min-width:0;width:100%;border:1px solid #dce3ed;border-radius:8px;background:white;padding:10px 11px;outline:none}input:focus,select:focus{border-color:#6d9de9;box-shadow:0 0 0 3px #eaf2ff}.button{border:0;border-radius:9px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer;white-space:nowrap;transition:filter .15s,transform .15s}.button:hover{filter:brightness(.97);transform:translateY(-1px)}.button.primary{background:var(--blue);color:white}.button.secondary{background:#f4f7fb;border:1px solid #e1e7f0;color:#536783}.button.full{width:100%;margin:14px 0 12px}.calendar-scroll{overflow:auto;max-width:100%}.calendar-table{width:100%;border-collapse:separate;border-spacing:0;min-width:850px;font-size:11px}.calendar-table th,.calendar-table td{border-right:1px solid #e9edf4;border-bottom:1px solid #e9edf4;text-align:center;padding:7px 4px;min-width:39px}.calendar-table thead th{background:#f9fbfe;color:#61718b;font-weight:600;height:54px}.calendar-table thead th:first-child,.calendar-table tbody th{position:sticky;left:0;z-index:2;background:#fff;text-align:left;min-width:155px;width:155px;padding-left:13px;border-right:1px solid #e2e8f1}.calendar-table thead th:first-child{z-index:3;background:#f9fbfe}.day-number{display:block;color:#263750;font-size:12px;font-weight:800}.day-name{display:block;font-size:10px;margin-top:3px;color:#8794a8}.employee-cell{display:flex;align-items:center;gap:8px;min-width:140px}.employee-avatar{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:#e7efff;color:#2f6ed3;font-weight:800;font-size:10px}.employee-meta{min-width:0}.employee-meta strong{display:block;font-size:11px;color:#263750;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:105px}.employee-meta small{display:block;color:#8794a8;font-size:10px;font-weight:400;margin-top:2px}.calendar-table td{padding:4px 3px}.day-button{border:0;background:transparent;width:100%;min-width:28px;height:28px;border-radius:6px;color:#9aa7ba;cursor:pointer;font-weight:700}.day-button:hover{outline:1px solid #a9c8f8;background:#f0f6ff}.day-button.status-off{background:var(--green);color:var(--green-ink)}.day-button.status-shift{background:var(--orange);color:var(--orange-ink)}.day-button.status-normal{color:#a5b0c0}.day-button.today{box-shadow:inset 0 0 0 1px #6d9de9}.footnote{font-size:11px;color:#8a97aa;padding:0 17px 15px;margin:12px 0 0}.right-column{display:grid;gap:15px}.side-panel{padding:17px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.count-badge{background:#edf3ff;color:#346fce;border-radius:20px;padding:4px 9px;font-size:11px;font-weight:800}.panel-description{font-size:11px;line-height:1.55;color:#8290a4;margin:10px 0 0}.employee-list{display:grid;gap:5px;max-height:315px;overflow:auto}.employee-list-item{display:flex;align-items:center;gap:9px;padding:9px 5px;border-bottom:1px solid #eff2f7}.employee-list-item:last-child{border-bottom:0}.employee-list-item .employee-avatar{width:32px;height:32px}.employee-list-item .details{flex:1;min-width:0}.employee-list-item strong,.employee-list-item small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.employee-list-item strong{font-size:11px}.employee-list-item small{font-size:10px;color:#8a97aa;margin-top:2px}.remove-button{border:0;background:transparent;color:#9ba7b8;font-size:17px;cursor:pointer;border-radius:6px;width:28px;height:28px}.remove-button:hover{background:#fff0f0;color:#d14c4c}.legend-row{display:flex;align-items:center;gap:11px;padding-top:14px}.legend-row strong,.legend-row small{display:block}.legend-row strong{font-size:11px}.legend-row small{font-size:10px;color:#8a97aa;margin-top:2px}.status-pill{width:43px;height:29px;border-radius:7px;display:grid;place-items:center;font-weight:800}.status-off{background:var(--green);color:var(--green-ink)}.status-shift{background:var(--orange);color:var(--orange-ink)}.status-normal{background:#f0f3f7;color:#8290a4}.tip-card{display:flex;gap:10px;padding:16px;border:1px solid #dfe9fc;background:linear-gradient(135deg,#edf4ff,#fff);border-radius:var(--radius);color:#355a91}.tip-icon{font-size:21px}.tip-card strong{font-size:12px}.tip-card p{font-size:11px;line-height:1.6;color:#6c83a5;margin:5px 0 0}.reports-panel{margin-top:22px;padding:20px}.reports-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.reports-heading h2{font-size:19px;margin-bottom:5px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}th,td{padding:12px 13px;border-bottom:1px solid #edf0f5}th{background:#f8fafd;color:#74829a;font-size:10px;text-transform:uppercase;letter-spacing:.4px}td{color:#4b5c75}tbody tr:last-child td{border-bottom:0}footer{color:#9aa5b6;font-size:11px;padding:24px 0 0;text-align:center}footer span{padding:0 5px}.hidden{display:none!important}.list-container{padding:10px 16px}.list-item{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;align-items:center;padding:12px 5px;border-bottom:1px solid #edf0f5;font-size:12px}.list-item:last-child{border-bottom:0}.list-item strong{display:block}.list-item small{color:#8491a5}.list-date{font-weight:700}.list-status{justify-self:start;padding:5px 9px;border-radius:6px;font-size:10px;font-weight:800}.modal{width:min(430px,calc(100% - 30px));border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:0 20px 70px #17263d40}.modal::backdrop{background:#15243b70;backdrop-filter:blur(3px)}.modal form{display:grid;gap:16px}.modal-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.modal-heading h2{font-size:21px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:5px}.toast{position:fixed;right:24px;bottom:24px;background:#17263d;color:white;padding:12px 17px;border-radius:10px;box-shadow:0 8px 25px #17263d30;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s;z-index:20;font-size:12px}.toast.show{opacity:1;transform:translateY(0)}.empty-state{padding:28px 15px;text-align:center;color:#8996a9;font-size:12px}
+@media(max-width:1250px){.main{padding-left:20px;padding-right:20px}.topbar{margin-left:-20px;margin-right:-20px;padding:0 20px}.workspace{grid-template-columns:minmax(0,1fr) 235px}.stats-grid{gap:9px}.stat-card{padding:13px;gap:9px}.stat-icon{width:36px;height:36px}.stat-card strong{font-size:22px}.filter-row{grid-template-columns:1fr 1fr}.filter-row .button{grid-column:1/-1}.calendar-legend .hint{margin-left:0}}@media(max-width:950px){.sidebar{width:72px;padding:22px 9px}.brand{justify-content:center;padding:0 0 40px}.brand>span:last-child,.nav-link:not(.active){font-size:0}.nav-link{justify-content:center;padding:13px 5px;font-size:0}.nav-link span{font-size:22px}.nav-link.active{font-size:0}.sidebar-bottom{justify-content:center;padding:16px 0 0}.sidebar-bottom>div:last-child{display:none}.main{margin-left:72px}.workspace{grid-template-columns:1fr}.right-column{grid-template-columns:repeat(2,minmax(0,1fr))}.tip-card{grid-column:1/-1}.employee-list{max-height:220px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.main{padding:0 12px 20px}.topbar{height:57px;margin:0 -12px 20px;padding:0 12px}.mobile-brand{display:block;margin-right:auto;font-weight:800;color:var(--navy)}.today-label{font-size:10px}.page-heading{gap:11px;align-items:flex-start}.heading-icon{width:47px;height:47px;font-size:28px;border-radius:12px;flex-shrink:0}h1{font-size:19px;line-height:1.25}.subtitle{font-size:11px}.stats-grid{gap:8px;margin-bottom:14px}.stat-card{padding:11px;align-items:flex-start;gap:8px}.stat-icon{width:31px;height:31px;font-size:17px;border-radius:9px}.stat-card span{font-size:10px}.stat-card strong{font-size:20px}.stat-card small{font-size:9px}.workspace{gap:13px}.panel-toolbar{padding:12px;flex-wrap:wrap}.month-controls h2{font-size:14px}.view-switch button{padding:6px 9px}.calendar-legend{padding:10px 12px;gap:10px}.filter-row{padding:11px;grid-template-columns:1fr}.filter-row .button{grid-column:auto}.right-column{grid-template-columns:1fr}.tip-card{grid-column:auto}.reports-panel{padding:14px;margin-top:14px}.reports-heading{align-items:flex-start;flex-direction:column}.reports-heading .button{width:100%}.list-item{grid-template-columns:1fr 1fr}.list-item .list-status{grid-column:1/-1}.toast{left:12px;right:12px;bottom:12px;text-align:center}}
+/* 2. Cores dos status: trabalho, feriado, férias e afastamento */
+.dot.holiday{background:#e9a52d}.dot.work{background:#8c9bb0}.dot.vacation{background:#4d8ce8}.dot.away{background:#d76b7b}
+.status-work{background:#edf1f6!important;color:#53647b!important}.status-holiday{background:#ffedc9!important;color:#9a6100!important}.status-vacation{background:#dce9ff!important;color:#245db2!important}.status-away{background:#f8dfe4!important;color:#a13d51!important}
+.day-button.status-work{color:#53647b}.day-button.status-holiday,.day-button.status-vacation,.day-button.status-away{font-size:10px}
+.report-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* 6. Regras específicas para impressão */
+@media print{.sidebar,.topbar,.page-heading,.stats-grid,.workspace,footer,.reports-heading .report-actions,.reports-heading .button{display:none!important}.main{margin:0;padding:0;max-width:none}.reports-panel{display:block!important;border:0;box-shadow:none;margin:0;padding:0}.reports-panel .reports-heading{display:block}.table-wrap{overflow:visible}body{background:#fff}.reports-panel table{font-size:9px}.reports-panel th,.reports-panel td{padding:5px 4px}.reports-panel .subtitle{color:#333}.reports-panel h2{font-size:20px}}
+
+/* Relatório logo abaixo do calendário, evitando espaço vazio na página */
+.calendar-panel .reports-panel{margin:18px 12px 14px;padding:16px;box-shadow:none}
+@media(max-width:600px){.calendar-panel .reports-panel{margin:12px 8px;padding:12px}}
+
+.empty-team-state{display:flex;flex-direction:column;align-items:center;gap:10px;padding:36px 18px;min-height:150px}.empty-team-state strong{font-size:14px;color:#263750}.empty-team-state span{max-width:390px;line-height:1.6}.empty-team-state .button{margin-top:3px}
+.rotation-settings{display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(140px,.7fr) minmax(140px,.7fr) auto;gap:12px;align-items:end;padding:16px;margin:14px 14px 0}.rotation-settings p:not(.eyebrow){font-size:11px;color:#78869b;margin:5px 0 0;line-height:1.5}.rotation-settings label{font-size:11px}.rotation-settings .rotation-note{grid-column:1/-1;color:#8794a8;font-size:10px;line-height:1.5}.calendar-table .sunday-column{background:#fff8eb}.calendar-table thead .sunday-column .day-name{color:#b97816}@media(max-width:950px){.rotation-settings{grid-template-columns:1fr 1fr}.rotation-settings>div,.rotation-settings .rotation-note{grid-column:1/-1}}@media(max-width:600px){.rotation-settings{grid-template-columns:1fr;margin:10px 10px 0;padding:12px}.rotation-settings>div,.rotation-settings .rotation-note{grid-column:auto}.rotation-settings .button{width:100%}}
+.rotation-settings{display:grid;grid-template-columns:minmax(180px,1.4fr) minmax(140px,.7fr) minmax(140px,.7fr) auto;gap:12px;align-items:end;padding:16px;margin:14px 14px 0}.rotation-settings p:not(.eyebrow){font-size:11px;color:#78869b;margin:5px 0 0;line-height:1.5}.rotation-settings label{font-size:11px}.rotation-settings .rotation-note{grid-column:1/-1;color:#8794a8;font-size:10px;line-height:1.5}.calendar-table .sunday-column{background:#fff8eb}.calendar-table thead .sunday-column .day-name{color:#b97816}@media(max-width:950px){.rotation-settings{grid-template-columns:1fr 1fr}.rotation-settings>div,.rotation-settings .rotation-note{grid-column:1/-1}}@media(max-width:600px){.rotation-settings{grid-template-columns:1fr;margin:10px 10px 0;padding:12px}.rotation-settings>div,.rotation-settings .rotation-note{grid-column:auto}.rotation-settings .button{width:100%}}
+.employee-list-item .edit-employee-button{color:#3677e8;font-size:15px}.employee-list-item .edit-employee-button:hover{background:#edf4ff;color:#2459b2}
+
+.global-rule-panel{display:grid;grid-template-columns:minmax(220px,1fr) minmax(260px,360px) auto;align-items:center;gap:18px;margin:0 0 18px;padding:22px}
+.global-rule-panel h2,.compliance-panel h2{margin:0 0 6px;font-size:18px}.global-rule-panel .subtitle{margin:0}.global-rule-panel label{display:grid;gap:7px;font-size:13px;font-weight:600}.global-rule-panel select{min-height:42px;border:1px solid #d7dfeb;border-radius:10px;padding:0 12px;background:#fff;color:#24334b}
+.compliance-panel{padding:20px;margin:0 0 20px}.compliance-alerts{display:grid;gap:8px;margin-top:12px}.compliance-alert{display:grid;gap:4px;padding:12px 14px;border-radius:10px;font-size:13px}.compliance-alert span{line-height:1.45}.compliance-alert.warning{background:#fff0e5;color:#87420b;border:1px solid #f4d1b6}.compliance-alert.notice{background:#fff8dc;color:#765a00;border:1px solid #f0e2a2}.compliance-alert.success{background:#eaf7ef;color:#246342;border:1px solid #c8e8d3}
+@media(max-width:850px){.global-rule-panel{grid-template-columns:1fr}.global-rule-panel .button{width:100%}}
+
+/* Melhorias de fluxo: backup, alertas e telas pequenas */
+.backup-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}.backup-actions .button{font-size:11px;padding:9px 12px}
+.status-training{background:#eee3ff!important;color:#6637a5!important;border-color:#d8c5fb!important}
+#pendingNotice:empty,#coverageNotice:empty{display:none}
+#pendingNotice{margin:10px 14px;padding:12px;border-radius:10px;background:#fff6df;color:#805500;display:flex;gap:8px;flex-direction:column;font-size:12px}
+#coverageNotice{margin:8px 14px}
+.reports-heading label{display:block;max-width:260px;margin-top:10px;font-size:12px;color:#53647e}
+@media(max-width:600px){.backup-actions{display:grid;grid-template-columns:1fr}.backup-actions .button{width:100%}#pendingNotice,#coverageNotice{margin-left:10px;margin-right:10px}.reports-heading label{max-width:none;width:100%}.reports-heading label select{width:100%}.calendar-scroll{max-width:calc(100vw - 100px);overflow-x:auto}.calendar-table{min-width:850px}.rotation-settings{min-width:0}.global-rule-panel{padding:14px}}
+
+.dashboard-mode-switch{display:flex;gap:8px;margin:0 0 16px;padding:5px;background:#eaf0f8;border-radius:12px;width:max-content;max-width:100%}.dashboard-mode-switch button{border:0;border-radius:8px;padding:10px 15px;background:transparent;color:#52637c;font:inherit;font-weight:800;cursor:pointer}.dashboard-mode-switch button.selected{background:#fff;color:var(--blue);box-shadow:0 2px 7px #17263d12}.cleaning-intro{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line);font-size:12px;color:#64738d}.cleaning-intro strong{color:#263750;font-size:14px}.cleaning-intro span{flex:1;min-width:200px;line-height:1.5}.cleaning-intro b{color:#24754b;background:#e0f6e8;border-radius:7px;padding:6px 9px}.day-button.cleaning-day{background:#f2f5f9;color:#9aa7ba}.day-button.cleaning-day.is-cleaning{background:#b7f0e4;color:#075e54;box-shadow:inset 0 0 0 1px #54cbb6}.day-button.cleaning-day.is-cleaning:after{content:''}@media(max-width:600px){.dashboard-mode-switch{width:100%;display:grid;grid-template-columns:1fr 1fr}.dashboard-mode-switch button{padding:10px 6px;font-size:11px}.cleaning-intro{padding:12px;display:grid}.cleaning-intro span{min-width:0}}
+.cleaning-list-status{justify-self:start;padding:5px 9px;border-radius:6px;font-size:10px;font-weight:800;background:#b7f0e4;color:#075e54}
+/* Revezamento de domingos em dois grupos lado a lado */
+.sunday-groups-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.sunday-group{border:1px solid #e1e8f2;border-radius:12px;padding:12px;min-width:0;background:#fbfcff}
+.sunday-group-one{border-top:3px solid #3478ef}.sunday-group-two{border-top:3px solid #21a675}
+.sunday-group h3{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;font-size:13px;color:#20324d}
+.sunday-group h3 span{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:99px;background:#eaf1ff;color:#2866c9;font-size:11px}
+.sunday-group p{font-size:11px;color:#75839a;line-height:1.45;margin:5px 0 10px}
+.sunday-people-list{display:grid;gap:6px;max-height:220px;overflow:auto}
+.sunday-person{display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid #e6ebf3;border-radius:8px;background:#fff;cursor:pointer;min-width:0}
+.sunday-person input{accent-color:#3478ef;flex:0 0 auto}
+.sunday-person span{font-size:12px;font-weight:650;color:#263954;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sunday-person small{margin-left:auto;color:#8794a8;font-size:10px;white-space:nowrap}
+.sunday-empty{padding:12px;text-align:center;color:#8996aa;font-size:11px}
+.sunday-assignment-summary{font-size:11px;color:#667792;line-height:1.5;margin:10px 0}
+@media(max-width:600px){.sunday-groups-grid{grid-template-columns:1fr}.sunday-people-list{max-height:180px}.sunday-person small{font-size:9px}}
+/* Ajuste: revezamento ocupa a largura disponível em duas áreas equilibradas */
+.rotation-settings{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;}
+.rotation-settings .rotation-intro{grid-column:1;}
+.rotation-settings .sunday-assignment-area{grid-column:2;min-width:0;width:100%;}
+.rotation-settings .rotation-note{grid-column:1/-1;}
+.sunday-assignment-head{display:none;}
+.sunday-groups-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;}
+.sunday-person{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
+.sunday-person span{order:0;flex:1;min-width:0;white-space:nowrap;}
+.sunday-person input{order:1;margin-left:auto;width:16px;height:16px;}
+.sunday-person small{display:none;}
+@media(max-width:850px){.rotation-settings{grid-template-columns:1fr;}.rotation-settings .rotation-intro,.rotation-settings .sunday-assignment-area,.rotation-settings .rotation-note{grid-column:1;}.sunday-groups-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:520px){.sunday-groups-grid{grid-template-columns:1fr;}}
+
+
+/* Cabeçalho simplificado: sem barra lateral */
+.sidebar{display:none!important}
+.main{margin-left:0!important;max-width:none;width:100%;padding:0 28px 26px}
+.topbar{justify-content:space-between;margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+.header-brand{display:flex;align-items:baseline;gap:14px;color:var(--navy);font-size:18px;font-weight:800;letter-spacing:-.3px}
+.header-user{font-size:12px;font-weight:500;letter-spacing:0;color:#8b96a8;opacity:.48}
+.creator-watermark{display:inline-block;margin-left:8px;color:#8290a4;opacity:.48;font-size:10px;letter-spacing:.15px}
+@media(max-width:600px){.main{padding:0 12px 20px}.topbar{margin:0 -12px 20px;padding:0 12px;height:57px}.header-brand{font-size:15px;gap:8px;flex-wrap:wrap}.header-user{font-size:10px}.today-label{font-size:10px}}
+
+/* 3. Destaque visual dos feriados no calendário */
+.calendar-table thead th.holiday-date{background:linear-gradient(180deg,#fff0c9,#ffe1a0);color:#8c4b00;border-bottom:2px solid #f0a329}
+.calendar-table thead th.holiday-date .day-number{color:#a64f00;font-weight:900}
+.calendar-table thead th.holiday-date .day-name{color:#a65b13}
+.holiday-marker{display:block;margin:4px auto 0;max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8px;line-height:1.15;color:#874400;font-weight:800}
+.holiday-notice{display:flex;flex-direction:column;gap:6px;padding:10px 18px;background:#fffaf0;border-bottom:1px solid #f4dfb6;color:#8c4b00;font-size:11px}
+.holiday-items{display:flex;flex-wrap:wrap;gap:7px 14px}
+.holiday-items span{background:#fff0c9;border:1px solid #f3d18b;border-radius:7px;padding:5px 8px;color:#824600}
+.holiday-notice small{color:#8b795d;font-size:10px}
+@media(max-width:700px){.holiday-notice{padding:10px}.holiday-items{display:grid;grid-template-columns:1fr 1fr}.holiday-marker{max-width:48px;font-size:7px}}
+
+/* 4. Alertas de descanso necessário */
+.day-button.next-rest-due{position:relative;outline:2px solid #4f7fc4!important;outline-offset:-2px;background:#dceaff!important;color:#214f96!important;font-weight:900}.rest-due-dot{display:inline-grid;place-items:center;margin-left:2px;width:12px;height:12px;border-radius:50%;background:#2857a4;color:#fff;font-size:8px;vertical-align:top}.rest-history-card label{margin-top:5px;max-width:260px}.rest-history-card input{background:#fff}
+
+/* Verificação mensal posicionada imediatamente acima da escala */
+.calendar-compliance-panel{margin:12px 12px 14px;padding:14px 16px;box-shadow:none}
+.calendar-compliance-panel .compliance-alerts{margin-top:10px}
+.calendar-compliance-panel .compliance-alert{padding:9px 11px}
+/* Datas de feriados recebem somente cor; os nomes ficam no painel de feriados */
+.calendar-table{table-layout:fixed}
+.calendar-table thead th:not(:first-child){width:39px;min-width:39px;max-width:39px;padding-left:2px;padding-right:2px}
+.calendar-table .holiday-marker{display:none!important}
+@media(max-width:600px){.calendar-compliance-panel{margin:10px 8px;padding:12px}.calendar-table{table-layout:fixed}.calendar-table thead th:not(:first-child){width:39px;min-width:39px;max-width:39px}}
+
+/* DSR — Descanso Semanal Remunerado */
+.status-dsr{background:#dff5f2!important;color:#087e73!important;border-color:#b7e9e2!important}.day-button.status-dsr{font-size:9px;font-weight:800}.dot.dsr{background:#14a99a}
+
+/* Aviso compacto no cabeçalho do dia em que vence o descanso; detalhes no tooltip. */
+.calendar-table thead th.rest-due-date{position:relative;background:#dceaff;border-bottom:2px solid #4f7fc4;color:#214f96}
+.calendar-table thead th.rest-due-date .day-number{color:#214f96}
+.rest-due-header{display:inline-flex;align-items:center;justify-content:center;min-width:12px;height:12px;margin:3px auto 0;padding:0 2px;border-radius:4px;background:#2857a4;color:#fff;font-size:8px;font-weight:900;line-height:12px}
+.day-button.next-rest-due{position:relative;outline:2px solid #4f7fc4!important;outline-offset:-2px;background:#dceaff!important;color:#214f96!important;font-weight:900}
+
+/* Alerta de descanso necessário: azul harmonizado com a identidade visual do site. */
+.day-button.work-rule-violation{position:relative!important;background:#dceaff!important;color:#214f96!important;outline:2px solid #4f7fc4!important;outline-offset:-2px;font-weight:900!important}
+.day-button.work-rule-violation .rest-due-dot{background:#2857a4!important;color:#fff!important}
+
+/* Oculta a prévia tabular do relatório no dashboard; exportação e impressão continuam disponíveis. */
+.reports-panel .table-wrap{display:none!important}
+
+/* Ajuste responsivo: a página não deve crescer além da largura da tela */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.main,.workspace,.calendar-panel,.right-column,.panel,.reports-panel{min-width:0;max-width:100%}
+.main{width:100%;overflow-x:clip}
+.workspace{grid-template-columns:minmax(0,1fr) minmax(220px,265px)}
+.calendar-scroll{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.calendar-table{width:max-content;min-width:100%;table-layout:fixed}
+.calendar-table thead th:first-child,.calendar-table tbody th{width:155px;min-width:155px;max-width:155px}
+.calendar-table thead th:not(:first-child){width:clamp(29px,2.7vw,39px);min-width:clamp(29px,2.7vw,39px);max-width:clamp(29px,2.7vw,39px)}
+@media(max-width:1100px){.workspace{grid-template-columns:minmax(0,1fr)}.right-column{grid-template-columns:repeat(2,minmax(0,1fr))}.right-column>*{min-width:0}}
+@media(max-width:700px){.main{padding-left:10px;padding-right:10px}.workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.right-column{grid-template-columns:minmax(0,1fr)}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar-table thead th:first-child,.calendar-table tbody th{width:125px;min-width:125px;max-width:125px}.calendar-table thead th:not(:first-child){width:32px;min-width:32px;max-width:32px}.calendar-table th,.calendar-table td{padding:5px 2px}.employee-cell{min-width:0;gap:5px}.employee-avatar{width:24px;height:24px}.employee-meta strong{max-width:78px;font-size:10px}.employee-meta small{font-size:9px}.day-button{min-width:24px;height:26px;font-size:10px}.panel-toolbar{min-width:0}.month-controls{flex-wrap:wrap}.calendar-legend .hint{margin-left:0}}
+@media(max-width:420px){.stats-grid{gap:7px}.stat-card{padding:9px}.stat-card strong{font-size:18px}.heading-icon{display:none}.page-heading{gap:0}.calendar-table thead th:first-child,.calendar-table tbody th{width:112px;min-width:112px;max-width:112px}.calendar-table thead th:not(:first-child){width:30px;min-width:30px;max-width:30px}}
+
+/* Em telas estreitas, colaboradores e legenda ficam lado a lado em uma faixa horizontal rolável. */
+@media(max-width:700px){
+  .right-column{display:flex!important;flex-direction:row!important;align-items:stretch;gap:12px;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:0 0 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .right-column>.side-panel,.right-column>.tip-card{flex:0 0 min(285px,82vw);width:min(285px,82vw);max-width:none;min-width:0;scroll-snap-align:start}
+  .right-column>.side-panel{align-self:stretch}
+  .employee-list{max-height:250px}
+  .right-column .tip-card{align-self:stretch}
+}
+
+/* 5. Colunas de domingo e padrão de cores na tela */
+.calendar-table td.sunday-column{background:#eaf2ff!important;border-left:1px solid #9dbcf0;border-right:1px solid #9dbcf0}
+.calendar-table thead th.sunday-column{background:#2857a4!important;border-left:1px solid #2857a4;border-right:1px solid #2857a4}
+.calendar-table thead th.sunday-column .day-number,.calendar-table thead th.sunday-column .day-name{color:#fff!important}
+.calendar-table tbody td.sunday-column .day-button{background:#dce9ff;color:#214f96}
+.calendar-table tbody td.sunday-column .day-button.status-off{background:#b7f0e4;color:#075e54}
+.calendar-table tbody td.sunday-column .day-button.status-shift{background:#ffe0a3;color:#814300}
+
+
+/* Destaque harmonizado: domingos em azul e feriados em verde-petróleo. */
+.calendar-table thead th.holiday-date{background:linear-gradient(180deg,#d7f2e9,#b8e4d7)!important;color:#145b4b!important;border-bottom:3px solid #269b7a!important;border-left:1px solid #a0d8c8;border-right:1px solid #a0d8c8}
+.calendar-table thead th.holiday-date .day-number,.calendar-table thead th.holiday-date .day-name{color:#145b4b!important;font-weight:850}
+.calendar-table td.holiday-column{background:#eef9f5!important;border-left:1px solid #b8e4d7!important;border-right:1px solid #b8e4d7!important}
+.calendar-table tbody td.holiday-column .day-button:not(.status-off):not(.status-holiday):not(.status-vacation):not(.status-away):not(.status-training){box-shadow:inset 0 0 0 1px #b8e4d7}
+/* Quando domingo e feriado coincidem, o feriado tem prioridade visual no cabeçalho. */
+.calendar-table thead th.sunday-column.holiday-date{background:linear-gradient(180deg,#d7f2e9,#b8e4d7)!important;border-bottom:3px solid #269b7a!important}
+
+/* A folga mantém o mesmo verde em qualquer dia, inclusive nas colunas de domingo. */
+.calendar-table tbody td.sunday-column .day-button.status-off{background:#b7f0e4!important;color:#075e54!important;box-shadow:inset 0 0 0 1px #54cbb6}
+
+/* Aplicar tambem no calendario do site o padrao cinza do relatorio impresso. */
+.calendar-table tbody tr:nth-child(even) > td,
+.calendar-table tbody tr:nth-child(even) > th { background-color:#f0f1f3; }
+.calendar-table tbody tr:nth-child(odd) > td,
+.calendar-table tbody tr:nth-child(odd) > th { background-color:#ffffff; }
+.calendar-table tbody tr:nth-child(even) > th { background-color:#f0f1f3; }
+.calendar-table tbody tr:nth-child(odd) > th { background-color:#ffffff; }
+.calendar-table tbody td.sunday-column { background:#e7e9ec!important; border-left:1px solid #c5c9cf!important; border-right:1px solid #c5c9cf!important; }
+.calendar-table thead th.sunday-column { background:#606873!important; border-left:1px solid #606873!important; border-right:1px solid #606873!important; }
+.calendar-table thead th.sunday-column .day-number,
+.calendar-table thead th.sunday-column .day-name { color:#ffffff!important; }
+.calendar-table tbody td.sunday-column .day-button { background:transparent; color:#53647b; }
+.calendar-table tbody td.sunday-column .day-button.status-off { background:var(--green)!important; color:var(--green-ink)!important; }
+.calendar-table tbody td.sunday-column .day-button.status-shift { background:var(--orange)!important; color:var(--orange-ink)!important; }
+.calendar-table tbody td.sunday-column .day-button.status-work { background:#edf1f6!important; color:#53647b!important; }
+.calendar-table tbody td.holiday-column { background:#eaf5f1!important; border-left:1px solid #b8e4d7!important; border-right:1px solid #b8e4d7!important; }
+.calendar-table thead th.holiday-date { background:linear-gradient(180deg,#d7f2e9,#b8e4d7)!important; color:#145b4b!important; border-bottom:3px solid #269b7a!important; }
+.calendar-table thead th.holiday-date .day-number,
+.calendar-table thead th.holiday-date .day-name { color:#145b4b!important; }
+.calendar-table tbody td.holiday-column .day-button.status-off { background:var(--green)!important; color:var(--green-ink)!important; }
+.calendar-table tbody td.holiday-column .day-button.status-shift { background:var(--orange)!important; color:var(--orange-ink)!important; }
+
+/* Altura uniforme para todas as linhas da escala, mesmo quando há alertas ou marcações. */
+.calendar-table tbody tr { height: 46px; }
+.calendar-table tbody tr > th,
+.calendar-table tbody tr > td { height: 46px; min-height: 46px; max-height: 46px; padding-top: 4px; padding-bottom: 4px; vertical-align: middle; overflow: hidden; }
+.calendar-table tbody tr > th { white-space: nowrap; }
+.calendar-table .employee-cell { height: 36px; min-height: 36px; max-height: 36px; overflow: hidden; }
+.calendar-table .employee-avatar { width: 28px; height: 28px; flex: 0 0 28px; }
+.calendar-table .employee-meta { overflow: hidden; line-height: 1.2; }
+.calendar-table .employee-meta strong { line-height: 14px; max-height: 14px; }
+.calendar-table .employee-meta small { line-height: 12px; max-height: 12px; margin-top: 2px; overflow: hidden; }
+.calendar-table .day-button { display: inline-flex; align-items: center; justify-content: center; height: 28px; min-height: 28px; max-height: 28px; line-height: 28px; padding: 0; vertical-align: middle; }
+@media print {
+  .calendar-table tbody tr { height: 34px !important; }
+  .calendar-table tbody tr > th,
+  .calendar-table tbody tr > td { height: 34px !important; min-height: 34px !important; max-height: 34px !important; padding-top: 2px !important; padding-bottom: 2px !important; }
+  .calendar-table .employee-cell { height: 28px !important; min-height: 28px !important; max-height: 28px !important; }
+  .calendar-table .employee-avatar { width: 23px !important; height: 23px !important; flex-basis: 23px !important; }
+  .calendar-table .day-button { height: 24px !important; min-height: 24px !important; max-height: 24px !important; line-height: 24px !important; }
+}
+
+/* Acoes de cadastro explicitas para editar nome/cargo e remover colaboradores. */
+.employee-list-item{gap:6px;flex-wrap:nowrap}
+.employee-list-item .details{flex:1 1 auto;min-width:60px}
+.employee-action{flex:0 0 auto;border:1px solid #dbe5f4;background:#f7faff;color:#365b91;border-radius:7px;padding:6px 8px;font:500 10px/1.2 inherit;cursor:pointer;white-space:nowrap}
+.employee-action:hover{background:#eaf2ff;border-color:#a9c6f1;color:#244f8d}
+.employee-action.delete-employee-button{border-color:#f0dada;background:#fffafa;color:#a24d4d}
+.employee-action.delete-employee-button:hover{background:#fff0f0;border-color:#e9b9b9;color:#a52f2f}
+/* Alerta azul com peso tipografico moderado para manter a leitura da marcacao. */
+.day-button.work-rule-violation{font-weight:600!important;color:#214f86!important;background:#dceaff!important;outline:1.5px solid #4f7fc4!important}
+.day-button.work-rule-violation .rest-due-dot{font-weight:600!important;font-size:8px;background:#2857a4!important;color:#fff!important}
+@media(max-width:420px){.employee-action{padding:6px 5px;font-size:9px}.employee-list-item{gap:4px}.employee-list-item .employee-avatar{width:27px;height:27px}}
+
+/* Edição rápida do cadastro: nome e cargo clicáveis */
+.employee-edit-trigger{display:block;flex:1 1 auto;min-width:0;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;color:inherit;font:inherit;border-radius:6px;}
+.employee-edit-trigger:hover strong{color:#2867c7;text-decoration:underline;text-underline-offset:2px;}
+.employee-edit-trigger:focus-visible{outline:2px solid #6d9de9;outline-offset:3px;}
+.employee-edit-trigger strong,.employee-edit-trigger small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.employee-edit-trigger small{font-size:10px;color:#8a97aa;margin-top:2px;}
+.sunday-group p{display:none!important;}
+
+/* Feriados em âmbar/dourado: harmoniza com o azul do site sem usar verde. */
+.calendar-table thead th.holiday-date,
+.calendar-table thead th.sunday-column.holiday-date {
+  background: linear-gradient(180deg,#fff0c9,#f4bd45) !important;
+  color:#653d00 !important;
+  border-bottom:3px solid #d99719 !important;
+  border-left:1px solid #e7bd62 !important;
+  border-right:1px solid #e7bd62 !important;
+}
+.calendar-table thead th.holiday-date .day-number,
+.calendar-table thead th.holiday-date .day-name { color:#653d00 !important; font-weight:750; }
+.calendar-table tbody td.holiday-column {
+  background:#fff8e8 !important;
+  border-left:1px solid #f0d7a0 !important;
+  border-right:1px solid #f0d7a0 !important;
+}
+.calendar-table tbody td.holiday-column .day-button:not(.status-off):not(.status-holiday):not(.status-vacation):not(.status-away):not(.status-training):not(.status-shift) {
+  box-shadow:inset 0 0 0 1px #f0d7a0;
+}
+.calendar-table tbody td.holiday-column .day-button.status-off { background:#b7f0e4 !important; color:#075e54 !important; }
+.calendar-table tbody td.holiday-column .day-button.status-shift { background:#ffe0a3 !important; color:#814300 !important; }
+
+/* Removido o contorno azul automático da data atual, que destacava indevidamente a célula de quarta-feira, dia 28. */
+.calendar-table .day-button.today { box-shadow: none !important; outline: none !important; }
+
+/* Alertas de cobertura por cargo e sugestões de redistribuição de folgas. */
+.coverage-role-alert{display:block;padding:12px 14px;margin-bottom:9px;border-left:4px solid #d89a22;background:#fff8e8;color:#624813;border-radius:8px}
+.coverage-role-alert strong,.coverage-role-alert span,.coverage-role-alert small{display:block}
+.coverage-role-alert span{margin-top:4px;line-height:1.45}
+.coverage-role-alert ul{margin:8px 0 5px;padding-left:20px;line-height:1.5}
+.coverage-role-alert li{margin:3px 0}
+.coverage-role-alert small{margin-top:6px;color:#6e6250;line-height:1.4}
