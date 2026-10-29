@@ -416,3 +416,34 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
   .workspace { width: 100%; grid-template-columns: minmax(0, 1fr) 265px; }
   .calendar-panel, .right-column { min-width: 0; }
 }
+
+/* Correção definitiva de largura: a navegação lateral está oculta, então o conteúdo usa 100% da viewport. */
+.sidebar { display: none !important; }
+.main { margin-left: 0 !important; width: 100% !important; max-width: none !important; }
+.workspace { width: 100% !important; max-width: none !important; }
+@media (max-width: 700px) {
+  .main { padding-left: 14px !important; padding-right: 14px !important; }
+  .workspace { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; width: 100% !important; }
+  .right-column { width: 100% !important; max-width: none !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .right-column > *, .right-column > .side-panel, .right-column > .tip-card { width: 100% !important; max-width: none !important; min-width: 0 !important; }
+}
+
+
+/* Correção final: feriado trabalhado sem negrito e layout sem achatamento lateral. */
+.calendar-table tbody td.holiday-column .day-button.holiday-work-day,
+.calendar-table tbody td.holiday-column .day-button.status-holiday,
+.calendar-table tbody td.sunday-column .day-button.holiday-work-day {
+  font-weight: 400 !important;
+}
+@media (min-width: 701px) {
+  .main { width: 100% !important; max-width: none !important; margin-left: 0 !important; }
+  .workspace { width: 100% !important; max-width: none !important; grid-template-columns: minmax(0, 1fr) 265px !important; }
+  .calendar-panel, .right-column { min-width: 0 !important; }
+  .right-column { width: 100% !important; }
+}
+@media (max-width: 700px) {
+  .main { width: 100% !important; max-width: none !important; margin-left: 0 !important; padding-left: 10px !important; padding-right: 10px !important; }
+  .workspace { width: 100% !important; max-width: none !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .right-column { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; width: 100% !important; max-width: none !important; overflow: visible !important; }
+  .right-column > *, .right-column > .side-panel, .right-column > .tip-card { width: 100% !important; max-width: none !important; min-width: 0 !important; }
+}
