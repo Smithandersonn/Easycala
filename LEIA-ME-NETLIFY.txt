@@ -8,3 +8,25 @@
 5. Para atualizar o site depois, arraste novamente a pasta atualizada na área de deploy do projeto no painel Netlify.
 
 Este é um site estático (HTML, CSS e JavaScript); não precisa de comando de build. Os dados guardados no navegador continuam locais a esse navegador/dispositivo e não são sincronizados automaticamente entre funcionários.
+
+=== QR CODE PARA BAIXAR PDF NO CELULAR ===
+
+Esta versão inclui botões “Gerar QR Code” ao lado das ações de impressão:
+- Relatório da escala de folgas ou de limpeza;
+- Relatório de itens e quantidades.
+
+O QR Code aponta para um PDF armazenado temporariamente pela função Netlify. O link expira após 15 minutos. O arquivo tem limite de 8 MB. O endereço do QR Code funciona em outro dispositivo quando o site está publicado ou quando o ambiente local de teste é acessível ao celular.
+
+PARA TESTAR LOCALMENTE NO VS CODE
+1. Instale Node.js LTS.
+2. Abra o terminal do VS Code na pasta que contém este arquivo e o index.html.
+3. Execute: npm install
+4. Faça login/vincule o projeto Netlify (recomendado): npx netlify login e npx netlify link.
+5. Execute: npx netlify dev
+6. Abra o endereço mostrado no terminal. Para testar com o celular, use um endereço de rede acessível ao telefone ou um deploy de teste; localhost no computador não abre automaticamente no celular.
+
+Observações importantes:
+- O QR Code depende de internet para carregar as bibliotecas de geração de PDF e QR Code na primeira utilização.
+- Os relatórios contêm dados de colaboradores/itens. Trate o link como confidencial; qualquer pessoa que possua o link pode acessá-lo até a expiração.
+- A expiração é validada quando o link é acessado. O arquivo expirado é removido do armazenamento quando há tentativa de acesso posterior.
+- O modo Live Server simples não executa funções Netlify. Use `npx netlify dev` para testar o endpoint localmente.
