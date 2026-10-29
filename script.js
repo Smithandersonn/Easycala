@@ -30,10 +30,10 @@
   let viewMode = 'month';
   let toastTimer;
   // Cria uma estrutura vazia para uma instalação sem dados anteriores.
-  function seedData(){ return {employees:[],statuses:{},cleaningDays:{},lastRestDates:{},settings:{firstSundayTeam:'A',defaultRule:'6x1',sundayScheduleEnabled:true}}; }
+  function seedData(){ return {employees:[],statuses:{},cleaningDays:{},lastRestDates:{},holidayAssignments:{},settings:{firstSundayTeam:'A',defaultRule:'6x1',sundayScheduleEnabled:true,holidayScheduleEnabled:false}}; }
   // Carrega dados do navegador e preenche campos ausentes de versões antigas.
   function loadData(){
-    try { const raw=localStorage.getItem(STORAGE_KEY); if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.employees)&&parsed.statuses){parsed.settings=parsed.settings||{firstSundayTeam:'A',defaultRule:'6x1',sundayScheduleEnabled:true};if(typeof parsed.settings.sundayScheduleEnabled!=='boolean')parsed.settings.sundayScheduleEnabled=true;parsed.cleaningDays=parsed.cleaningDays||{};parsed.lastRestDates=parsed.lastRestDates||{};return parsed;}} }
+    try { const raw=localStorage.getItem(STORAGE_KEY); if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.employees)&&parsed.statuses){parsed.settings=parsed.settings||{firstSundayTeam:'A',defaultRule:'6x1',sundayScheduleEnabled:true};if(typeof parsed.settings.sundayScheduleEnabled!=='boolean')parsed.settings.sundayScheduleEnabled=true;if(typeof parsed.settings.holidayScheduleEnabled!=='boolean')parsed.settings.holidayScheduleEnabled=false;parsed.cleaningDays=parsed.cleaningDays||{};parsed.lastRestDates=parsed.lastRestDates||{};parsed.holidayAssignments=parsed.holidayAssignments||{};return parsed;}} }
     catch(e){}
     return seedData();
   }
@@ -194,8 +194,27 @@
     host.innerHTML=`<div class="sunday-groups-grid"><section class="sunday-group sunday-group-one"><h3>Domingo 1 <span>${first.length}</span></h3><div class="sunday-people-list">${list(first,'A')}</div></section><section class="sunday-group sunday-group-two"><h3>Domingo 2 <span>${second.length}</span></h3><div class="sunday-people-list">${list(second,'B')}</div></section></div>`;
     $('#sundayAssignmentSummary').textContent=`${eligible.length} colaboradores distribuídos · ${first.length} no grupo Domingo 1 · ${second.length} no grupo Domingo 2. Jovem Aprendiz não participa.`;
   }
+  // Renderiza uma caixa independente para cada feriado reconhecido no mês.
+  function renderHolidayAssignments(){
+    const host=$('#holidayAssignmentList');if(!host)return;
+    const holidays=currentMonthHolidays();
+    if(!holidays.length){host.innerHTML='<p class="empty-state">Não há feriados nacionais cadastrados para este mês. Feriados estaduais e municipais podem variar conforme a localidade.</p>';$('#holidayAssignmentSummary').textContent='';return;}
+    if(!state.employees.length){host.innerHTML='<p class="empty-state">Cadastre colaboradores para montar a escala de feriados.</p>';$('#holidayAssignmentSummary').textContent='';return;}
+    const employees=sortEmployees(state.employees);
+    host.innerHTML=holidays.map(([key,name])=>{
+      const day=Number(key.slice(-2)),dateLabel=`${pad(day)}/${pad(viewDate.getMonth()+1)}/${viewDate.getFullYear()}`;
+      const people=employees.map(emp=>{
+        const assignmentKey=`${emp.id}|${key}`;
+        const checked=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,key)!=='folga';
+        return `<label class="holiday-person"><input type="checkbox" data-holiday-person="${escapeHTML(emp.id)}" data-holiday-date="${key}" ${checked?'checked':''}><span>${escapeHTML(emp.name)}</span><small>${checked?'Vai trabalhar':'Não trabalha'}</small></label>`;
+      }).join('');
+      const working=employees.filter(emp=>{const assignmentKey=`${emp.id}|${key}`;return Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,key)!=='folga';}).length;
+      return `<section class="holiday-date-card"><header><div><h3>${dateLabel} — ${escapeHTML(name)}</h3><p>Selecione quem vai trabalhar neste feriado.</p></div><span class="holiday-count">${working}/${employees.length} trabalhando</span></header><div class="holiday-people-grid">${people}</div></section>`;
+    }).join('');
+    $('#holidayAssignmentSummary').textContent=`${holidays.length} feriado(s) no mês · selecione os colaboradores em cada data e aplique a escala.`;
+  }
   // Atualiza todas as áreas dependentes dos dados ou do mês selecionado.
-  function renderAll(){renderDepartments();renderStats();renderCalendar();renderEmployees();renderReport();renderCompliance();renderPendingAndCoverage();renderSundayAssignments();if($('#sundayScheduleToggle'))$('#sundayScheduleToggle').value=state.settings?.sundayScheduleEnabled===false?'no':'yes';if($('#sundayRotationPanel'))$('#sundayRotationPanel').classList.toggle('hidden',state.settings?.sundayScheduleEnabled===false);$('#todayLabel').textContent=today.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});}
+  function renderAll(){renderDepartments();renderStats();renderCalendar();renderEmployees();renderReport();renderCompliance();renderPendingAndCoverage();renderSundayAssignments();renderHolidayAssignments();if($('#sundayScheduleToggle'))$('#sundayScheduleToggle').value=state.settings?.sundayScheduleEnabled===false?'no':'yes';if($('#sundayRotationPanel'))$('#sundayRotationPanel').classList.toggle('hidden',state.settings?.sundayScheduleEnabled===false);if($('#holidayScheduleToggle'))$('#holidayScheduleToggle').value=state.settings?.holidayScheduleEnabled===true?'yes':'no';if($('#holidayRotationPanel'))$('#holidayRotationPanel').classList.toggle('hidden',state.settings?.holidayScheduleEnabled!==true);$('#todayLabel').textContent=today.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});}
   function renderPendingAndCoverage(){
     const y=viewDate.getFullYear(),m=viewDate.getMonth(),n=daysInMonth(),holidays=holidaysForYear(y);
     const p=$('#pendingNotice');
@@ -248,6 +267,15 @@
   function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2500);}
   // Navegação do calendário: mês anterior e próximo mês.
   $('#sundayScheduleToggle').addEventListener('change',e=>{state.settings=state.settings||{};state.settings.sundayScheduleEnabled=e.target.value==='yes';save();renderAll();showToast(state.settings.sundayScheduleEnabled?'Escala de domingos ativada.':'Escala de domingos desativada.');});
+  $('#holidayScheduleToggle').addEventListener('change',e=>{state.settings=state.settings||{};state.settings.holidayScheduleEnabled=e.target.value==='yes';save();renderAll();showToast(state.settings.holidayScheduleEnabled?'Escala de feriados ativada.':'Escala de feriados ocultada.');});
+  $('#holidayAssignmentList').addEventListener('change',e=>{const input=e.target.closest('[data-holiday-person][data-holiday-date]');if(!input)return;const key=`${input.dataset.holidayPerson}|${input.dataset.holidayDate}`;state.holidayAssignments=state.holidayAssignments||{};state.holidayAssignments[key]=input.checked;save();renderHolidayAssignments();});
+  $('#applyHolidayRotation').addEventListener('click',()=>{
+    const holidays=currentMonthHolidays();if(!holidays.length){showToast('Não há feriados cadastrados neste mês.');return;}if(!state.employees.length){showToast('Cadastre colaboradores antes de aplicar a escala.');return;}
+    const total=holidays.length*state.employees.length;if(!confirm(`Aplicar a escala de ${holidays.length} feriado(s) para ${state.employees.length} colaborador(es)? As marcações de trabalha/folga nessas datas serão atualizadas conforme as caixas selecionadas.`))return;
+    state.holidayAssignments=state.holidayAssignments||{};let applied=0;
+    holidays.forEach(([date])=>state.employees.forEach(emp=>{const assignmentKey=`${emp.id}|${date}`;const working=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,date)!=='folga';state.statuses[assignmentKey]=working?'trabalha':'folga';applied++;}));
+    save();renderAll();showToast(`Escala aplicada: ${applied} marcações atualizadas nos feriados do mês.`);
+  });
   $('#calendarContainer').addEventListener('change',e=>{const input=e.target.closest('[data-last-rest-employee]');if(!input)return;const emp=state.employees.find(x=>x.id===input.dataset.lastRestEmployee);if(!emp)return;emp.lastRestDate=input.value||'';if(!emp.lastRestDate)delete state.lastRestDates[emp.id];else state.lastRestDates[emp.id]=emp.lastRestDate;save();renderAll();showToast(emp.lastRestDate?'Última folga anterior salva.':'Data da última folga removida.');});
   $('#prevMonth').addEventListener('click',()=>{viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()-1,1);renderAll();});
   $('#nextMonth').addEventListener('click',()=>{viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()+1,1);renderAll();});
@@ -344,6 +372,16 @@
     $('#inventoryHistoryBody').innerHTML=history.map((h,index)=>`<tr class="${index===0?'latest-inventory-entry':''}"><td>${escapeHTML(localDateTime(h.timestamp))}${index===0?' <span class="latest-tag">Último</span>':''}</td><td><strong>${escapeHTML(h.code)}</strong></td><td>${h.action?escapeHTML(h.action):'+'+h.quantity}</td><td>${h.previous}</td><td><strong>${h.total}</strong></td></tr>`).join('');
   }
   function csvDownload(rows,filename){const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);}
+  // Gera um código de barras Code 128-B diretamente no navegador, sem dependência externa.
+  // O conteúdo codificado é exatamente o código do item, sem incluir a quantidade.
+  function barcodeSvg(value){
+    const patterns=['212222','222122','222221','121223','121322','131222','122213','122312','132212','221213','221312','231212','112232','122132','122231','113222','123122','123221','223211','221132','221231','213212','223112','312131','311222','321122','321221','312212','322112','322211','212123','212321','232121','111323','131123','131321','112313','132113','132311','211313','231113','231311','112133','112331','132131','113123','113321','133121','313121','211331','231131','213113','213311','213131','311123','311321','331121','312113','312311','332111','314111','221411','431111','111224','111422','121124','121421','141122','141221','112214','112412','122114','122411','142112','142211','241211','221114','413111','241112','134111','111242','121142','121241','114212','124112','124211','411212','421112','421211','212141','214121','412121','111143','111341','131141','114113','114311','411113','411311','113141','114131','311141','411131','211412','211214','211232','2331112'];
+    const chars=Array.from(String(value),ch=>ch.charCodeAt(0)-32);
+    if(!chars.length||chars.some(n=>n<0||n>95))return '<span class="barcode-fallback">'+escapeHTML(value)+'</span>';
+    const values=[104,...chars];let checksum=104;chars.forEach((n,i)=>checksum+=n*(i+1));values.push(checksum%103,106);
+    let x=10;const bars=[];for(const index of values){const pattern=patterns[index];for(let j=0;j<pattern.length;j++){const width=Number(pattern[j])*1.45;if(j%2===0)bars.push(`<rect x="${x}" y="2" width="${width}" height="32"/>`);x+=width;}}
+    const width=x+10;return `<svg class="barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 48" role="img" aria-label="Código de barras ${escapeHTML(value)}"><rect width="100%" height="100%" fill="white"/><g fill="#000">${bars.join('')}</g><text x="${width/2}" y="45" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#000">${escapeHTML(value)}</text></svg>`;
+  }
   function validItemCode(code){
     // Aceita somente código interno de 6 dígitos ou código de barras numérico GTIN/EAN/UPC com dígito verificador válido.
     if(/^\d{6}$/.test(code))return {valid:true,type:'código interno de 6 dígitos'};
@@ -399,15 +437,15 @@
     }
   });
   $('#exportInventory').addEventListener('click',()=>{
-    const rows=[['CONTROLE DE ITENS'],['Exportado em',new Date().toLocaleString('pt-BR')],[],['Código do item','Quantidade']];
-    Object.keys(inventory.balances).sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true})).forEach(code=>rows.push([code,Number(inventory.balances[code].quantity)||0]));
+    const rows=[['CONTROLE DE ITENS'],['Exportado em',new Date().toLocaleString('pt-BR')],[],['Código do item','Quantidade','Código para leitura (mesmo número do item)']];
+    Object.keys(inventory.balances).sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true})).forEach(code=>rows.push([code,Number(inventory.balances[code].quantity)||0,code]));
     csvDownload(rows,'lista-itens-quantidades.csv');showToast('Lista de itens e quantidades exportada para CSV.');
   });
   $('#printInventory').addEventListener('click',()=>{
     const w=window.open('','_blank');if(!w){showToast('Permita pop-ups para imprimir a lista de itens.');return;}
     const codes=Object.keys(inventory.balances).sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true}));
-    const rows=codes.map(code=>`<tr><td>${escapeHTML(code)}</td><td>${Number(inventory.balances[code].quantity)||0}</td></tr>`).join('');
-    w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Lista de itens e quantidades</title><style>body{font:12px Arial,sans-serif;color:#1d2c43;margin:24px}h1{font-size:22px;margin-bottom:4px}p{color:#687991;font-size:10px}table{width:100%;max-width:700px;border-collapse:collapse;margin:16px 0}th,td{border:1px solid #dce3ed;padding:8px;text-align:left}th{background:#edf3fa;color:#405572;font-size:10px;text-transform:uppercase}tbody tr:nth-child(even){background:#f7f9fc}td:last-child,th:last-child{text-align:right;width:180px}.empty{color:#687991;font-style:italic}@page{size:A4 portrait;margin:12mm}@media print{body{margin:0}tr{break-inside:avoid}}</style></head><body><h1>Lista de itens</h1><p>Relatório gerado em ${escapeHTML(new Date().toLocaleString('pt-BR'))}</p>${codes.length?`<table><thead><tr><th>Código do item</th><th>Quantidade</th></tr></thead><tbody>${rows}</tbody></table>`:'<p class="empty">Nenhum item lançado.</p>'}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
+    const rows=codes.map(code=>`<tr><td class="item-code">${escapeHTML(code)}</td><td class="item-quantity">${Number(inventory.balances[code].quantity)||0}</td><td class="barcode-cell">${barcodeSvg(code)}</td></tr>`).join('');
+    w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Lista de itens e quantidades</title><style>body{font:12px Arial,sans-serif;color:#1d2c43;margin:24px}h1{font-size:22px;margin-bottom:4px}p{color:#687991;font-size:10px}table{width:100%;border-collapse:collapse;margin:16px 0;table-layout:fixed}th,td{border:1px solid #dce3ed;padding:6px 8px;text-align:left;vertical-align:middle}th{background:#edf3fa;color:#405572;font-size:10px;text-transform:uppercase}tbody tr:nth-child(even){background:#f7f9fc}.item-code{width:22%;font-weight:700;white-space:nowrap}.item-quantity{width:14%;font-size:14px;font-weight:700}.barcode-cell{width:64%;text-align:center;background:#fff!important}.barcode-svg{display:block;width:100%;max-width:320px;height:48px;margin:0 auto}.barcode-fallback{font-family:monospace}.empty{color:#687991;font-style:italic}@page{size:A4 portrait;margin:12mm}@media print{body{margin:0}tr{break-inside:avoid}th,td{padding:5px 7px}.barcode-svg{max-width:290px;height:44px}}</style></head><body><h1>Lista de itens</h1><p>Relatório gerado em ${escapeHTML(new Date().toLocaleString('pt-BR'))}</p><p>O código de barras contém exatamente o código do item, sem a quantidade.</p>${codes.length?`<table><thead><tr><th>Código do item</th><th>Quantidade</th><th>Código de barras para novo lançamento</th></tr></thead><tbody>${rows}</tbody></table>`:'<p class="empty">Nenhum item lançado.</p>'}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
   });
   // Alterna entre o calendário e a área de lançamento sem sair do mesmo site.
   function setPage(page){const inventoryActive=page==='inventory';$$('[data-main-view="schedule"]').forEach(el=>el.classList.toggle('hidden',inventoryActive));$('#inventoryPage').classList.toggle('hidden',!inventoryActive);$$('[data-page]').forEach(b=>b.classList.toggle('selected',b.dataset.page===page));if(inventoryActive){renderInventory();$('#itemCode').focus({preventScroll:true});}else{renderAll();}}

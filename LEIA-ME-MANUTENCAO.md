@@ -48,3 +48,8 @@ Na tabela de saldo atual, use **Editar** para alterar a quantidade total ou **Ex
 
 ## Uso sem internet
 O site agora inclui `service-worker.js` e `manifest.webmanifest`. Publique via HTTPS no Netlify e abra o endereço com internet pelo menos uma vez para que os arquivos sejam armazenados em cache. Depois disso, o app pode abrir sem conexão no mesmo navegador/dispositivo. Os dados continuam em `localStorage` daquele navegador; limpar os dados do site, trocar de navegador/dispositivo ou perder o aparelho pode apagar o acesso aos dados. Exporte a lista e mantenha backups regulares. O modo offline não sincroniza dados entre dispositivos.
+
+
+## Escala de feriados do mês
+
+Na barra superior da escala existem dois controles independentes: ativar/desativar o revezamento de domingos e ativar/desativar o lançamento da escala de feriados. Ao ativar feriados, o sistema cria um cartão para cada feriado nacional identificado no mês selecionado. Em cada cartão, marque os colaboradores que trabalharão naquela data. A seleção é salva no navegador. O botão **Aplicar escala de feriados** pede confirmação e registra `trabalha` para os selecionados e `folga` para os demais, em cada feriado do mês. Feriados estaduais e municipais não são detectados automaticamente por não dependerem de uma localidade configurada.

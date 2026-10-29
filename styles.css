@@ -291,3 +291,24 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 
 /* Ações seguras para editar/excluir saldo na lista de itens. */
 .inventory-row-actions{white-space:nowrap;display:flex;gap:6px;align-items:center}.inventory-row-actions .button{padding:6px 9px;font-size:11px;min-height:30px}.button.danger{background:#fff0ef;border:1px solid #f0c5c2;color:#a52b27}.button.danger:hover{background:#ffe2df}.inventory-summary-panel .inventory-table{min-width:760px}
+
+/* Escala de feriados: cards por data, com seleção direta de colaboradores. */
+.month-controls{flex-wrap:wrap;}
+.month-controls .sunday-toggle-label{display:flex;align-items:center;gap:7px;white-space:nowrap;}
+.month-controls .sunday-toggle-label select{max-width:110px;}
+.holiday-assignment-area{grid-column:2;min-width:0;width:100%;}
+.holiday-assignment-list{display:grid;gap:12px;min-width:0;}
+.holiday-date-card{border:1px solid #dfe7f0;border-radius:12px;background:#fff;overflow:hidden;min-width:0;}
+.holiday-date-card>header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:#f5f8fc;border-bottom:1px solid #e4ebf3;}
+.holiday-date-card h3{margin:0;font-size:13px;color:#263d58;}
+.holiday-date-card header p{margin:4px 0 0;font-size:11px;color:#7b899b;}
+.holiday-count{flex-shrink:0;border-radius:999px;padding:5px 9px;background:#e5f5f0;color:#246b5d;font-size:10px;font-weight:700;}
+.holiday-people-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:12px;}
+.holiday-person{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:7px;row-gap:2px;padding:8px 9px;border:1px solid #e5ebf2;border-radius:8px;background:#fff;cursor:pointer;min-width:0;}
+.holiday-person:has(input:checked){background:#eff8f5;border-color:#b7ded3;}
+.holiday-person input{grid-row:1/3;margin:0;accent-color:#258574;}
+.holiday-person span{font-size:11px;color:#35465d;overflow-wrap:anywhere;}
+.holiday-person small{font-size:9px;color:#718198;}
+.holiday-assignment-area .button{margin-top:4px;}
+@media(max-width:850px){.holiday-assignment-area{grid-column:1;}.holiday-people-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:520px){.month-controls .sunday-toggle-label{width:100%;justify-content:space-between;}.month-controls .sunday-toggle-label select{max-width:none;flex:1;}.holiday-people-grid{grid-template-columns:1fr;}.holiday-date-card>header{align-items:flex-start;flex-direction:column;gap:7px;}}
