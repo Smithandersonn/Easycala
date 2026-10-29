@@ -431,16 +431,32 @@
       if(!source) throw new Error('Não encontrei os dados deste relatório. Atualize a tela e tente novamente.');
       await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',()=>typeof window.html2pdf==='function');
       const wrapper=document.createElement('div');
-      wrapper.style.cssText='background:#fff;color:#17263d;padding:18px;font:12px Arial,sans-serif;width:1100px';
-      const heading=document.createElement('h1');heading.textContent=title;heading.style.cssText='font-size:20px;margin:0 0 6px;border-bottom:2px solid #17263d;padding-bottom:8px';
-      const sub=document.createElement('p');sub.textContent=`Período: ${monthName(viewDate)} · Gerado em ${new Date().toLocaleDateString('pt-BR')}`;sub.style.cssText='font-size:11px;color:#52627a;margin:0 0 12px';
-      const clone=source.cloneNode(true);clone.style.cssText+=';overflow:visible;width:100%;max-width:none';
-      clone.querySelectorAll('button,input,select').forEach(el=>el.remove());
-      clone.querySelectorAll('table').forEach(t=>{t.style.cssText+=';width:100%;border-collapse:collapse;table-layout:auto;font-size:10px'});
-      clone.querySelectorAll('th,td').forEach(c=>{c.style.cssText+=';border:1px solid #cfd7e3;padding:5px;text-align:center;overflow-wrap:anywhere;color:#17263d'});
+      const isInventory=title==='Relatório de itens e quantidades';
+      wrapper.style.cssText=`position:fixed;left:-10000px;top:0;z-index:-1;background:#fff;color:#17263d;padding:${isInventory?'24px':'18px'};font:12px Arial,sans-serif;width:${isInventory?'760px':'1100px'};box-sizing:border-box`;
+      const heading=document.createElement('h1');heading.textContent=isInventory?'Lista de itens':title;heading.style.cssText='font-size:22px;margin:0 0 6px;border-bottom:2px solid #17263d;padding-bottom:8px;color:#17263d';
+      const sub=document.createElement('p');sub.textContent=isInventory?`Relatório gerado em ${new Date().toLocaleString('pt-BR')}`:`Período: ${monthName(viewDate)} · Gerado em ${new Date().toLocaleDateString('pt-BR')}`;sub.style.cssText='font-size:11px;color:#52627a;margin:0 0 12px';
+      let clone;
+      if(isInventory){
+        const codes=Object.keys(inventory.balances).sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true}));
+        const table=document.createElement('div');
+        table.innerHTML=`<p style="color:#687991;font-size:10px">O código de barras contém exatamente o código do item, sem a quantidade.</p>${codes.length?`<table style="width:100%;border-collapse:collapse;table-layout:fixed;margin:16px 0"><thead><tr><th style="width:22%">Código do item</th><th style="width:14%">Quantidade</th><th style="width:64%">Código de barras para novo lançamento</th></tr></thead><tbody>${codes.map(code=>`<tr><td style="font-weight:700;white-space:nowrap">${escapeHTML(code)}</td><td style="font-size:14px;font-weight:700">${Number(inventory.balances[code].quantity)||0}</td><td style="text-align:center">${barcodeSvg(code)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:#687991;font-style:italic">Nenhum item lançado.</p>'}`;
+        table.querySelectorAll('th,td').forEach(c=>c.style.cssText+=';border:1px solid #dce3ed;padding:6px 8px;text-align:center;vertical-align:middle;color:#1d2c43;overflow-wrap:anywhere');
+        table.querySelectorAll('th').forEach(c=>c.style.cssText+=';background:#edf3fa;color:#405572;font-size:10px;text-transform:uppercase');
+        table.querySelectorAll('tbody tr:nth-child(even)').forEach(r=>r.style.background='#f7f9fc');
+        table.querySelectorAll('.barcode-svg').forEach(svg=>svg.style.cssText+=';display:block;width:100%;max-width:290px;height:44px;margin:0 auto');
+        clone=table;
+      } else {
+        clone=source.cloneNode(true);
+        clone.classList.remove('hidden');
+        clone.style.cssText+=';display:block!important;visibility:visible!important;opacity:1!important;overflow:visible;width:100%;max-width:none;height:auto;max-height:none';
+        clone.querySelectorAll('.hidden,[hidden],button,input,select').forEach(el=>el.remove());
+        clone.querySelectorAll('table').forEach(t=>{t.style.cssText+=';display:table!important;visibility:visible!important;opacity:1!important;width:100%;border-collapse:collapse;table-layout:fixed;font-size:9px'});
+        clone.querySelectorAll('th,td').forEach(c=>{const cs=getComputedStyle(c);c.style.cssText+=`;display:table-cell!important;background-color:${cs.backgroundColor};color:${cs.color};font-weight:${cs.fontWeight};border:1px solid #cfd7e3;padding:3px 1px;text-align:center;overflow-wrap:anywhere`});
+      }
       wrapper.append(heading,sub,clone);document.body.appendChild(wrapper);
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       message.textContent='Gerando o PDF e preparando o link temporário…';
-      const pdfBlob=await window.html2pdf().set({margin:7,filename, image:{type:'jpeg',quality:.96},html2canvas:{scale:1.5,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'landscape'}}).from(wrapper).outputPdf('blob');
+      const pdfBlob=await window.html2pdf().set({margin:isInventory?12:5,filename, image:{type:'jpeg',quality:.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false},jsPDF:{unit:'mm',format:'a4',orientation:isInventory?'portrait':'landscape'}}).from(wrapper).outputPdf('blob');
       wrapper.remove();
       const response=await fetch('/.netlify/functions/pdf-share',{method:'POST',headers:{'Content-Type':'application/pdf'},body:pdfBlob});
       const data=await response.json().catch(()=>({}));
