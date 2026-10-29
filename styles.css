@@ -388,7 +388,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 
 /* Layout refinado: aproveitar a largura livre do calendário em monitores grandes. */
 @media (min-width: 701px) {
-  .workspace { grid-template-columns: minmax(0, 1fr) 265px; width: 100%; }
+  .workspace { display:flex; flex-direction:column; width:100%; }
   .calendar-panel { width: 100%; min-width: 0; }
   .calendar-scroll { width: 100%; overflow-x: auto; }
   .calendar-table { width: 100%; table-layout: fixed; min-width: 0; }
@@ -402,4 +402,167 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 }
 @media (max-width: 700px) {
   .calendar-table { min-width: 850px; table-layout: auto; }
+}
+
+/* Equipe horizontal no topo, calendário em largura total e legenda abaixo do relatório. */
+.main{width:auto;max-width:none;margin-left:228px;padding-left:28px;padding-right:28px}
+.workspace{display:flex;flex-direction:column;align-items:stretch;gap:17px;width:100%;max-width:none}
+.workspace>.calendar-panel{order:2;width:100%;max-width:none;min-width:0}
+.workspace>#colaboradores{order:1;width:100%;max-width:none;padding:15px 18px}
+.workspace>#colaboradores .panel-description{margin:7px 0 0}
+.workspace>#colaboradores .button.full{width:auto;min-width:210px;margin:10px 0}
+.workspace>#colaboradores .employee-list{display:flex;flex-wrap:wrap;gap:6px 12px;max-height:none;overflow:visible}
+.workspace>#colaboradores .employee-list-item{flex:1 1 190px;max-width:calc(25% - 12px);min-width:170px;border:1px solid #eff2f7;border-radius:9px;padding:7px 8px}
+.workspace>.side-panel:not(#colaboradores){order:3;width:100%;max-width:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:15px 18px}
+.workspace>.side-panel:not(#colaboradores) .section-title{width:100%}
+.workspace>.side-panel:not(#colaboradores) .legend-row{padding-top:4px;min-width:150px}
+.workspace>.tip-card{order:4;width:100%;max-width:none}
+.calendar-table tbody td.holiday-column .day-button.holiday-work-day{font-weight:400!important}
+@media(max-width:900px){.workspace>#colaboradores .employee-list-item{max-width:calc(50% - 8px)}.main{margin-left:0;padding-left:14px;padding-right:14px}}
+@media(max-width:600px){.workspace>#colaboradores .employee-list-item{flex:1 1 100%;max-width:100%;min-width:0}.workspace>#colaboradores .button.full{width:100%}.workspace>.side-panel:not(#colaboradores) .legend-row{min-width:calc(50% - 12px)}.main{padding-left:10px;padding-right:10px}}
+
+
+/* Ajustes finais solicitados: centralização, leitura dos cargos e ordem dos painéis. */
+@media (min-width: 701px) {
+  .workspace { align-items: stretch; }
+  .workspace>#colaboradores { text-align: center; }
+  .workspace>#colaboradores .section-title { justify-content: center; text-align: left; }
+  .workspace>#colaboradores .panel-description { text-align: center; }
+  .workspace>#colaboradores .button.full { display: block; margin: 12px auto 14px; }
+  .workspace>#colaboradores .employee-list { justify-content: center; }
+  .workspace>#colaboradores .employee-list-item {
+    flex: 1 1 245px;
+    max-width: calc(33.333% - 12px);
+    min-width: 225px;
+    text-align: left;
+  }
+  .workspace>.calendar-panel { order: 2; }
+  .workspace>.status-legend-panel { order: 3 !important; }
+  .workspace>.reports-panel { order: 4 !important; }
+  .workspace>.tip-card { order: 5; }
+  .calendar-table thead th:first-child,
+  .calendar-table tbody th:not(.last-rest-column) {
+    width: 190px !important; min-width: 190px !important;
+    padding-left: 16px; padding-right: 12px;
+  }
+  .calendar-table .last-rest-column,
+  .calendar-table .last-rest-cell {
+    width: 160px !important; min-width: 160px !important;
+    white-space: normal; overflow-wrap: anywhere;
+  }
+  .calendar-table .last-rest-input { max-width: 145px; }
+}
+@media (max-width: 700px) {
+  .workspace>#colaboradores .employee-list-item { min-width: 0; max-width: 100%; }
+  .workspace>.status-legend-panel { order: 3 !important; }
+  .workspace>.reports-panel { order: 4 !important; }
+}
+
+
+/* Ajustes solicitados: botão da regra alinhado ao seletor e equipe organizada em quatro linhas para até 18 pessoas. */
+@media (min-width: 1100px) {
+  .global-rule-panel #saveGlobalRule {
+    justify-self: start;
+    align-self: center;
+    margin-top: 12px;
+    transform: translateY(6px);
+  }
+  .workspace>#colaboradores .employee-list {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px 14px;
+    align-items: stretch;
+    width: 100%;
+  }
+  .workspace>#colaboradores .employee-list-item {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none !important;
+    min-width: 0 !important;
+    padding: 10px 9px;
+    gap: 8px;
+    border: 1px solid #e5ebf4;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .workspace>#colaboradores .employee-list-item .details,
+  .workspace>#colaboradores .employee-list-item .employee-edit-trigger { min-width: 0; }
+  .workspace>#colaboradores .employee-list-item strong,
+  .workspace>#colaboradores .employee-list-item small {
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    line-height: 1.3;
+  }
+  .workspace>#colaboradores .employee-list-item strong { font-size: 12px; }
+  .workspace>#colaboradores .employee-list-item small { font-size: 10px; }
+}
+@media (min-width: 701px) and (max-width: 1099px) {
+  .workspace>#colaboradores .employee-list { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px 12px; }
+  .workspace>#colaboradores .employee-list-item { max-width:none !important; min-width:0 !important; width:100%; padding:9px; }
+  .workspace>#colaboradores .employee-list-item strong,
+  .workspace>#colaboradores .employee-list-item small { white-space:normal; overflow-wrap:anywhere; }
+  .global-rule-panel #saveGlobalRule { justify-self:start; margin-top:8px; transform:translateY(4px); }
+}
+@media (max-width: 700px) {
+  .workspace>#colaboradores .employee-list { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .workspace>#colaboradores .employee-list-item { max-width:none !important; min-width:0 !important; width:100%; padding:8px; }
+  .workspace>#colaboradores .employee-list-item strong,
+  .workspace>#colaboradores .employee-list-item small { white-space:normal; overflow-wrap:anywhere; }
+}
+
+
+/* Ajuste final: cabeçalho de colaboradores e espaço da última folga anterior. */
+.workspace>#colaboradores .collaborators-heading {
+  display:flex; align-items:center; justify-content:center; gap:12px; width:100%;
+  text-align:center; margin-bottom:4px;
+}
+.workspace>#colaboradores .collaborators-heading h2 { margin:0; }
+.workspace>#colaboradores .collaborators-heading .count-badge { flex:0 0 auto; }
+/* Mais espaço para nome e cargo na primeira coluna da escala. */
+.calendar-table thead th:first-child,
+.calendar-table tbody th {
+  width:175px; min-width:175px; max-width:175px;
+}
+.calendar-table .last-rest-column,
+.calendar-table .last-rest-cell {
+  left:175px; min-width:108px!important; width:108px!important;
+}
+.calendar-table .last-rest-input {
+  width:100%; max-width:100px; min-width:0; padding:4px 2px; font-size:10px;
+}
+@media(max-width:850px) {
+  .calendar-table .last-rest-column,.calendar-table .last-rest-cell { left:175px; }
+}
+@media(max-width:600px) {
+  .calendar-table thead th:first-child,.calendar-table tbody th { width:125px; min-width:125px; max-width:125px; }
+  .calendar-table .last-rest-column,.calendar-table .last-rest-cell { left:125px; min-width:108px!important; width:108px!important; }
+  .calendar-table .last-rest-input { font-size:9px; }
+}
+
+
+/* Ajuste final solicitado: nomes completos na escala mensal. */
+@media (min-width: 701px) {
+  .calendar-table thead th:first-child,
+  .calendar-table tbody th:not(.last-rest-column) {
+    width: 195px !important; min-width: 195px !important; max-width: 195px !important;
+  }
+  .calendar-table .last-rest-column,
+  .calendar-table .last-rest-cell { left: 195px !important; }
+  .calendar-table .employee-cell { min-width: 0; gap: 7px; }
+  .calendar-table .employee-meta { min-width: 0; flex: 1 1 auto; }
+  .calendar-table .employee-meta strong {
+    max-width: none !important; white-space: normal !important; overflow: visible !important;
+    text-overflow: clip !important; overflow-wrap: anywhere; line-height: 1.2; max-height: none !important;
+  }
+  .calendar-table .employee-meta small { white-space: normal; overflow-wrap: anywhere; line-height: 1.2; }
+}
+@media (max-width: 700px) {
+  .calendar-table thead th:first-child,
+  .calendar-table tbody th:not(.last-rest-column) { width: 155px !important; min-width: 155px !important; max-width: 155px !important; }
+  .calendar-table .last-rest-column,
+  .calendar-table .last-rest-cell { left: 155px !important; }
+  .calendar-table .employee-meta strong { max-width: none !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere; }
+  .calendar-table .employee-meta small { white-space: normal; overflow-wrap: anywhere; }
 }

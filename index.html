@@ -33,6 +33,12 @@
 
     <!-- Área principal: calendário à esquerda e equipe/legenda à direita -->
     <section class="workspace" data-main-view="schedule">
+        <section class="panel side-panel" id="colaboradores">
+          <div class="section-title collaborators-heading"><h2>Colaboradores</h2><span class="count-badge" id="employeeCount">0</span></div>
+          <p class="panel-description">Adicione pessoas à escala ou remova quem não faz mais parte da equipe.</p>
+          <button class="button primary full" id="openEmployeeModal">＋ Adicionar colaborador</button>
+          <div id="employeeList" class="employee-list"></div>
+        </section>
       <div class="calendar-panel panel">
         <div class="panel-toolbar">
           <div class="month-controls"><button class="icon-button" id="prevMonth" aria-label="Mês anterior">‹</button><button class="icon-button" id="nextMonth" aria-label="Próximo mês">›</button><h2 id="monthTitle">Outubro 2026</h2><label class="sunday-toggle-label">Tem escala de domingo?<select id="sundayScheduleToggle"><option value="yes">Sim</option><option value="no">Não</option></select></label><label class="sunday-toggle-label">Lançar escala de feriado?<select id="holidayScheduleToggle"><option value="no">Não</option><option value="yes">Sim</option></select></label></div>
@@ -56,23 +62,8 @@
       <div class="table-wrap"><table><thead><tr><th>Colaborador</th><th>Departamento</th><th>Feriados</th><th>Folgas</th><th>Trabalha</th><th>Férias</th><th>Afastado</th></tr></thead><tbody id="reportBody"></tbody></table></div>
     </section>
       </div>
-      <aside class="right-column">
-        <section class="panel side-panel" id="colaboradores">
-          <div class="section-title"><div><p class="eyebrow">EQUIPE</p><h2>Colaboradores</h2></div><span class="count-badge" id="employeeCount">0</span></div>
-          <p class="panel-description">Adicione pessoas à escala ou remova quem não faz mais parte da equipe.</p>
-          <button class="button primary full" id="openEmployeeModal">＋ Adicionar colaborador</button>
-          <div id="employeeList" class="employee-list"></div>
-        </section>
-        <section class="panel side-panel">
-          <div class="section-title"><div><p class="eyebrow">LEGENDA</p><h2>Status da escala</h2></div></div>
-          <div class="legend-row"><span class="status-pill status-holiday">FE</span><div><strong>Feriado</strong><small>Feriado cadastrado</small></div></div>
-          <div class="legend-row"><span class="status-pill status-off">F</span><div><strong>Folga</strong><small>Dia de folga planejada</small></div></div>
-          <div class="legend-row"><span class="status-pill status-work">T</span><div><strong>Trabalha</strong><small>Dia de trabalho</small></div></div>
-          <div class="legend-row"><span class="status-pill status-vacation">FE</span><div><strong>Férias</strong><small>Período de férias</small></div></div>
-          <div class="legend-row"><span class="status-pill status-away">AF</span><div><strong>Afastado</strong><small>Ausência / afastamento</small></div></div>
-        </section>
-        <section class="tip-card"><div class="tip-icon">✦</div><div><strong>Organize com facilidade</strong><p>Use os filtros para encontrar uma pessoa e confira a cobertura antes de definir novas folgas.</p></div></section>
-      </aside>
+      <section class="panel side-panel status-legend-panel"><div class="section-title"><div><p class="eyebrow">LEGENDA</p><h2>Status da escala</h2></div></div><div class="legend-row"><span class="status-pill status-holiday">FE</span><div><strong>Feriado</strong><small>Feriado cadastrado</small></div></div><div class="legend-row"><span class="status-pill status-off">F</span><div><strong>Folga</strong><small>Dia de folga planejada</small></div></div><div class="legend-row"><span class="status-pill status-work">T</span><div><strong>Trabalha</strong><small>Dia de trabalho</small></div></div><div class="legend-row"><span class="status-pill status-vacation">FE</span><div><strong>Férias</strong><small>Período de férias</small></div></div><div class="legend-row"><span class="status-pill status-away">AF</span><div><strong>Afastado</strong><small>Ausência / afastamento</small></div></div></section>
+      <section class="tip-card"><div class="tip-icon">✦</div><div><strong>Organize com facilidade</strong><p>Use os filtros para encontrar uma pessoa e confira a cobertura antes de definir novas folgas.</p></div></section>
     </section>
 
     <section class="inventory-page hidden" id="inventoryPage" aria-labelledby="inventoryTitle">
