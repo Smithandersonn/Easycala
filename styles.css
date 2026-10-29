@@ -327,3 +327,23 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .auto-fill-actions{display:flex;flex-wrap:wrap;gap:10px}
 .auto-fill-panel .inventory-help{margin:0;line-height:1.5}
 @media(max-width:600px){.auto-fill-panel{margin:12px 10px;padding:14px}.auto-fill-actions{display:grid;grid-template-columns:1fr}.auto-fill-actions .button{width:100%}}
+
+/* Ajuste fino: mais respiro no cabeçalho e coluna de última folga compacta. */
+.calendar-table thead th:first-child,
+.calendar-table tbody th:not(.last-rest-column) { padding-left: 16px; padding-right: 10px; }
+.calendar-table .employee-cell { gap: 7px; }
+.calendar-table .employee-meta { text-align: left; padding-left: 1px; }
+.last-rest-column { min-width: 112px !important; width: 112px; padding: 7px 8px !important; text-align: center !important; white-space: normal; line-height: 1.3; }
+.last-rest-cell { min-width: 112px !important; width: 112px; padding: 4px 7px !important; }
+.last-rest-input { width: 100%; max-width: 104px; padding: 5px 6px; margin: 0 auto; display: block; }
+@media(max-width:600px){.last-rest-column,.last-rest-cell{min-width:108px!important;width:108px}.last-rest-input{width:100%;font-size:9px}}
+
+/* Ajuste fino: mais respiro no cabeçalho e coluna de última folga compacta. */
+.calendar-table thead th:first-child,
+.calendar-table tbody th:not(.last-rest-column) { padding-left: 16px; padding-right: 10px; }
+.calendar-table .employee-cell { gap: 7px; }
+.calendar-table .employee-meta { text-align: left; padding-left: 1px; }
+.last-rest-column { min-width: 112px !important; width: 112px; padding: 7px 8px !important; text-align: center !important; white-space: normal; line-height: 1.3; }
+.last-rest-cell { min-width: 112px !important; width: 112px; padding: 4px 7px !important; }
+.last-rest-input { width: 100%; max-width: 104px; padding: 5px 6px; margin: 0 auto; display: block; }
+@media(max-width:600px){.last-rest-column,.last-rest-cell{min-width:108px!important;width:108px}.last-rest-input{width:100%;font-size:9px}}
