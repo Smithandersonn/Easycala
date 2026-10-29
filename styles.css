@@ -403,3 +403,16 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media (max-width: 700px) {
   .calendar-table { min-width: 850px; table-layout: auto; }
 }
+
+
+/* Ajustes solicitados: manter cores de domingos/feriados sem texto em negrito e ocupar toda a largura disponível. */
+.day-button.holiday-work-day { font-weight: 400 !important; box-shadow: inset 0 0 0 1px #f0c96f !important; }
+.calendar-table td.sunday-column .day-button.status-normal,
+.calendar-table td.sunday-column .day-button.status-off,
+.calendar-table td.sunday-column .day-button.status-shift,
+.calendar-table td.holiday-column .day-button { font-weight: 400; }
+@media (min-width: 701px) {
+  .main { max-width: none; width: calc(100% - 228px); }
+  .workspace { width: 100%; grid-template-columns: minmax(0, 1fr) 265px; }
+  .calendar-panel, .right-column { min-width: 0; }
+}
