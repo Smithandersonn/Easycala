@@ -88,6 +88,8 @@
       <section class="panel inventory-summary-panel"><div class="inventory-section-heading"><div><p class="eyebrow">SALDO ATUAL</p><h2>Itens acumulados</h2></div><span class="count-badge" id="inventoryItemCount">0 códigos</span></div><div class="table-wrap"><table class="inventory-table"><thead><tr><th>Código do item</th><th>Quantidade total</th><th>Último lançamento</th><th>Ações</th></tr></thead><tbody id="inventoryBalanceBody"></tbody></table></div><p class="empty-state hidden" id="inventoryBalanceEmpty">Ainda não há itens lançados.</p></section>
     </section>
 
+    <section class="panel auto-fill-panel" id="autoFillPanel" data-main-view="schedule"><div><p class="eyebrow">CONTINUIDADE DA ESCALA</p><h2>Preenchimento automático com base no mês anterior</h2><p class="subtitle">Use a escala anterior como referência para sugerir folgas fixas e continuar o revezamento, sem substituir marcações que já existam no mês atual.</p></div><div class="auto-fill-actions"><button class="button primary" id="autoFillPreviousMonth" type="button">Preencher com mês anterior</button><button class="button secondary" id="clearAutoFill" type="button">Desativar e limpar sugestões automáticas</button></div><p class="inventory-help" id="autoFillStatus" aria-live="polite">O preenchimento é opcional. Você pode continuar ajustando qualquer dia manualmente.</p></section>
+
     <footer>Planejamento de escala <span>•</span> Organização simples para sua equipe <span class="creator-watermark">Ideia original: Anderson Almeida</span></footer>
   </main>
 
