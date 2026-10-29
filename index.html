@@ -3,25 +3,28 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17263d">
-  <title>Escala Kalunga — Planejamento de Folgas</title>
+  <meta name="description" content="Planejamento de escala e controle local de lançamentos de itens.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="offline-icon.svg" type="image/svg+xml">
+  <title>Planejamento de Escala de Folgas</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="main" id="inicio">
-    <header class="topbar"><div class="header-brand">Escala Kalunga <span class="header-user">Ideia original · Anderson Almeida</span></div><span class="today-label" id="todayLabel"></span></header>
-    <section class="page-heading" id="dashboard">
+    <header class="topbar"><div class="header-brand">Planejamento de Escala <span class="header-user">Ideia original · Anderson Almeida</span></div><nav class="top-menu" aria-label="Menu principal"><button type="button" class="top-menu-button selected" data-page="schedule">Escala de folgas</button><button type="button" class="top-menu-button" data-page="inventory">Lançamento de itens</button></nav><span class="today-label" id="todayLabel"></span></header>
+    <section class="page-heading" id="dashboard" data-main-view="schedule">
       <div class="heading-icon">▦</div><div><p class="eyebrow">GESTÃO DE EQUIPE</p><h1>Planejamento de Escala de Folga</h1><p class="subtitle">Organize as folgas da equipe de forma simples e eficiente.</p></div>
     </section>
 
     <!-- Configuração global da escala e ferramentas de backup -->
-    <section class="panel global-rule-panel" aria-label="Regra trabalhista da escala">
+    <section class="panel global-rule-panel" aria-label="Regra trabalhista da escala" data-main-view="schedule">
       <div><p class="eyebrow">CONFIGURAÇÃO INICIAL</p><h2>Regra trabalhista da escala</h2><p class="subtitle">Defina o regime usado para orientar os avisos de descanso. Confira também a convenção coletiva aplicável.</p></div>
       <label>Regime da equipe<select id="globalRule"><option value="5x2">5x2 — cinco dias de trabalho e dois de descanso</option><option value="6x1">6x1 — seis dias de trabalho e um de descanso</option></select></label>
       <button class="button primary" id="saveGlobalRule" type="button">Salvar regra</button><div class="backup-actions"><button class="button secondary" id="backupData" type="button">Baixar backup</button><button class="button secondary" id="restoreData" type="button">Restaurar backup</button><input id="restoreFile" type="file" accept="application/json" hidden></div>
     </section>
 
     <!-- Indicadores rápidos do mês -->
-    <section class="stats-grid" aria-label="Resumo da escala">
+    <section class="stats-grid" aria-label="Resumo da escala" data-main-view="schedule">
       <article class="stat-card"><div class="stat-icon blue">♙</div><div><span>Total de colaboradores</span><strong id="totalEmployees">0</strong><small>Na equipe</small></div></article>
       <article class="stat-card"><div class="stat-icon green">✓</div><div><span>Folgas no período</span><strong id="totalDaysOff">0</strong><small>No mês selecionado</small></div></article>
       <article class="stat-card"><div class="stat-icon purple">▦</div><div><span>Outros status no período</span><strong id="totalShifts">0</strong><small>Feriado, férias e afastamento</small></div></article>
@@ -29,13 +32,13 @@
     </section>
 
     <!-- Área principal: calendário à esquerda e equipe/legenda à direita -->
-    <section class="workspace">
+    <section class="workspace" data-main-view="schedule">
       <div class="calendar-panel panel">
         <div class="panel-toolbar">
-          <div class="month-controls"><button class="icon-button" id="prevMonth" aria-label="Mês anterior">‹</button><button class="icon-button" id="nextMonth" aria-label="Próximo mês">›</button><h2 id="monthTitle">Outubro 2026</h2></div>
+          <div class="month-controls"><button class="icon-button" id="prevMonth" aria-label="Mês anterior">‹</button><button class="icon-button" id="nextMonth" aria-label="Próximo mês">›</button><h2 id="monthTitle">Outubro 2026</h2><label class="sunday-toggle-label">Tem escala de domingo?<select id="sundayScheduleToggle"><option value="yes">Sim</option><option value="no">Não</option></select></label></div>
           <div class="view-switch" role="group" aria-label="Modo de visualização"><button class="selected" data-mode="month">Mês</button><button data-mode="list">Lista</button></div>
         </div>
-        <section class="rotation-settings panel"><div class="rotation-intro"><p class="eyebrow">REVEZAMENTO DE DOMINGOS</p><h2>Escala de domingos</h2><p>Distribua os colaboradores entre os dois grupos de revezamento.</p></div><div class="sunday-assignment-area"><div class="sunday-assignment-head"><strong>Colaborador</strong><strong>Grupo de domingo</strong></div><div id="sundayAssignmentList" class="sunday-assignment-list"><p class="empty-state">Cadastre colaboradores para montar os grupos de domingo.</p></div><div id="sundayAssignmentSummary" class="sunday-assignment-summary" aria-live="polite"></div><button class="button primary" id="applySundayRotation" type="button">Aplicar escala de domingos</button></div><small class="rotation-note">Antes de aplicar, confira os colaboradores sem grupo. O revezamento é uma ferramenta de planejamento e não substitui a validação das regras trabalhistas e da convenção coletiva pelo RH.</small></section>
+        <section class="rotation-settings panel" id="sundayRotationPanel"><div class="rotation-intro"><p class="eyebrow">REVEZAMENTO DE DOMINGOS</p><h2>Escala de domingos</h2><p>Distribua os colaboradores entre os dois grupos de revezamento.</p></div><div class="sunday-assignment-area"><div class="sunday-assignment-head"><strong>Colaborador</strong><strong>Grupo de domingo</strong></div><div id="sundayAssignmentList" class="sunday-assignment-list"><p class="empty-state">Cadastre colaboradores para montar os grupos de domingo.</p></div><div id="sundayAssignmentSummary" class="sunday-assignment-summary" aria-live="polite"></div><button class="button primary" id="applySundayRotation" type="button">Aplicar escala de domingos</button></div><small class="rotation-note">Antes de aplicar, confira os colaboradores sem grupo. O revezamento é uma ferramenta de planejamento e não substitui a validação das regras trabalhistas e da convenção coletiva pelo RH.</small></section>
         <div class="calendar-legend"><span><i class="dot holiday"></i> Feriado</span><span><i class="dot off"></i> Folga</span><span><i class="dot work"></i> Trabalha</span><span><i class="dot vacation"></i> Férias</span><span><i class="dot away"></i> Afastado</span><span class="hint">Clique para alterar · Botão direito para apagar a marcação</span></div>
         <div id="holidayNotice" class="holiday-notice" aria-live="polite"></div>
         <div class="filter-row">
@@ -73,7 +76,18 @@
       </aside>
     </section>
 
-    <footer>Escala Kalunga <span>•</span> Planejamento simples para sua equipe <span class="creator-watermark">Ideia original: Anderson Almeida</span></footer>
+    <section class="inventory-page hidden" id="inventoryPage" aria-labelledby="inventoryTitle">
+      <section class="page-heading"><div class="heading-icon">▤</div><div><p class="eyebrow">CONTROLE DE ITENS</p><h1 id="inventoryTitle">Lançamento de itens</h1><p class="subtitle">Digite o código e a quantidade. Códigos repetidos acumulam o saldo e cada lançamento fica registrado no histórico.</p><p class="inventory-help"><strong>Modo offline:</strong> depois de abrir este site com internet pelo menos uma vez, os arquivos poderão ser carregados sem conexão neste mesmo navegador.</p></div></section>
+      <section class="panel inventory-entry-panel"><div><p class="eyebrow">NOVO LANÇAMENTO</p><h2>Entrada de item</h2></div>
+        <form id="inventoryForm" class="inventory-form"><label>Código do item<input id="itemCode" required maxlength="80" autocomplete="off" spellcheck="false" placeholder="Bipe o código ou digite 6 dígitos" /></label><label>Quantidade<input id="itemQuantity" required type="number" min="1" step="1" value="" placeholder="Qtd." inputmode="numeric" /></label><button class="button primary" type="submit">＋ Lançar</button></form>
+        <div id="inventoryResult" class="inventory-result" role="status" aria-live="polite">Pronto para o próximo item.</div>
+        <p class="inventory-help">Fluxo rápido: leia/digite o código, pressione Tab, informe a quantidade e pressione Enter. Após cada lançamento, os campos são limpos e o foco volta para o código.</p>
+      </section>
+      <section class="panel inventory-history-panel inventory-audit-panel"><div class="inventory-section-heading"><div><p class="eyebrow">AUDITORIA RÁPIDA</p><h2>Últimos 3 lançamentos</h2><p class="subtitle">Confira imediatamente o código, a quantidade, o saldo e o horário da digitação.</p></div><div class="report-actions"><button class="button secondary" id="exportInventory">⇩ Exportar lista (CSV)</button><button class="button primary" id="printInventory">▤ Imprimir lista</button></div></div><div class="table-wrap"><table class="inventory-table"><thead><tr><th>Data e hora</th><th>Código</th><th>Qtd. lançada</th><th>Saldo anterior</th><th>Saldo após</th></tr></thead><tbody id="inventoryHistoryBody"></tbody></table></div><p class="empty-state hidden" id="inventoryHistoryEmpty">O histórico aparecerá aqui após o primeiro lançamento.</p><p class="inventory-help">A auditoria mostra somente os 3 registros mais recentes. A exportação e a impressão incluem apenas a lista de códigos e suas quantidades acumuladas. Os ajustes e exclusões pedem confirmação; a auditoria mantém registro das alterações.</p></section>
+      <section class="panel inventory-summary-panel"><div class="inventory-section-heading"><div><p class="eyebrow">SALDO ATUAL</p><h2>Itens acumulados</h2></div><span class="count-badge" id="inventoryItemCount">0 códigos</span></div><div class="table-wrap"><table class="inventory-table"><thead><tr><th>Código do item</th><th>Quantidade total</th><th>Último lançamento</th><th>Ações</th></tr></thead><tbody id="inventoryBalanceBody"></tbody></table></div><p class="empty-state hidden" id="inventoryBalanceEmpty">Ainda não há itens lançados.</p></section>
+    </section>
+
+    <footer>Planejamento de escala <span>•</span> Organização simples para sua equipe <span class="creator-watermark">Ideia original: Anderson Almeida</span></footer>
   </main>
 
   <!-- Formulário reutilizado para adicionar e editar colaboradores -->

@@ -1,0 +1,12 @@
+{
+  "name": "Planejamento de Escala e Lançamento de Itens",
+  "short_name": "Planejamento",
+  "description": "Escala de equipe e controle local de itens, com suporte offline após a primeira visita.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#17263d",
+  "icons": [{"src":"offline-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

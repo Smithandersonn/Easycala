@@ -257,3 +257,37 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .coverage-role-alert ul{margin:8px 0 5px;padding-left:20px;line-height:1.5}
 .coverage-role-alert li{margin:3px 0}
 .coverage-role-alert small{margin-top:6px;color:#6e6250;line-height:1.4}
+
+
+/* Ajustes solicitados: título neutro, seletor de domingos e última folga anterior. */
+.header-brand{font-weight:800;color:var(--navy);font-size:16px}.sunday-toggle-label{display:flex;align-items:center;gap:6px;margin-left:8px;font-size:10px;white-space:nowrap}.sunday-toggle-label select{width:auto;min-width:76px;padding:7px 9px;border-radius:8px;font-size:11px}.month-controls{flex-wrap:wrap}.last-rest-column{position:sticky;left:155px;z-index:2;min-width:130px!important;width:130px;background:#f3f6fb!important;color:#52637c!important;font-size:10px!important}.calendar-table thead .last-rest-column{z-index:4}.last-rest-cell{position:sticky;left:155px;z-index:1;min-width:130px!important;width:130px;background:#fff!important;padding:4px!important}.last-rest-input{width:126px;min-width:0;padding:5px 4px;border:1px solid #dfe7f0;border-radius:6px;font-size:10px;color:#52637c;background:#fbfcfe}.calendar-table tbody tr:nth-child(even) .last-rest-cell{background:#f7f9fc!important}.day-button.work-rule-violation{background:#e5f3ee!important;color:#276657!important;outline:1.5px solid #8bc9b7!important;outline-offset:-2px;font-weight:650!important}.day-button.work-rule-violation .rest-due-dot{background:#3c8b77!important;color:#fff!important}.calendar-table thead th.rest-due-date{background:#e5f3ee!important;color:#276657!important;border-bottom:2px solid #8bc9b7!important}.calendar-table thead th.rest-due-date .day-number{color:#276657!important}.rest-due-header{background:#3c8b77!important;color:#fff!important}
+@media(max-width:850px){.sunday-toggle-label{margin:8px 0 0;white-space:normal}.last-rest-column,.last-rest-cell{left:155px}}
+@media(max-width:600px){.month-controls{gap:5px}.sunday-toggle-label{width:100%;display:flex}.last-rest-column,.last-rest-cell{left:125px;min-width:118px!important;width:118px}.last-rest-input{width:112px;font-size:9px}.calendar-table thead th:first-child,.calendar-table tbody th{width:125px;min-width:125px;max-width:125px}}
+
+/* Menu superior e módulo de lançamento de itens */
+.topbar{justify-content:space-between;gap:16px}.header-brand{font-weight:800;color:var(--navy);white-space:nowrap}.header-user{display:block;font-size:10px;font-weight:500;color:#a2adbd;margin-top:2px}.top-menu{display:flex;align-items:center;gap:5px;margin-left:auto}.top-menu-button{border:1px solid transparent;border-radius:9px;background:transparent;color:#60718a;padding:9px 13px;font:inherit;font-weight:700;cursor:pointer}.top-menu-button:hover{background:#f0f5fc;color:var(--blue)}.top-menu-button.selected{background:#e8f0ff;border-color:#d9e6fc;color:#2f67bb}.inventory-page{display:grid;gap:18px}.inventory-page .page-heading{margin-bottom:0}.inventory-entry-panel,.inventory-summary-panel,.inventory-history-panel{padding:20px}.inventory-form{display:grid;grid-template-columns:minmax(180px,1fr) minmax(130px,.5fr) auto;align-items:end;gap:12px;margin-top:18px}.inventory-form label{font-size:12px}.inventory-form .button{height:40px}.inventory-help{font-size:11px;color:#8190a5;margin:12px 0 0}.inventory-section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.inventory-section-heading .subtitle{margin-top:5px}.inventory-table{min-width:600px}.inventory-table td,.inventory-table th{padding:11px 13px}.latest-inventory-entry{background:#f0f8f6!important}.latest-tag{display:inline-block;margin-left:6px;border-radius:5px;background:#d7f2e9;color:#176b5a;font-size:9px;font-weight:800;padding:2px 5px;white-space:nowrap}.inventory-page .report-actions{display:flex;gap:8px;flex-wrap:wrap}.inventory-page .empty-state{padding:16px;color:#8190a5;font-size:12px}.inventory-page .empty-state.hidden{display:none}
+@media(max-width:1050px){.topbar{height:auto;min-height:68px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}.top-menu{order:3;width:100%;margin-left:0}.top-menu-button{flex:1}.inventory-form{grid-template-columns:1fr 1fr}.inventory-form button{grid-column:1/-1}.inventory-section-heading{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.header-brand{font-size:13px}.header-user{font-size:9px}.topbar{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.top-menu-button{font-size:11px;padding:9px 6px}.inventory-entry-panel,.inventory-summary-panel,.inventory-history-panel{padding:14px}.inventory-form{grid-template-columns:1fr}.inventory-form button{grid-column:auto}.inventory-page .report-actions{width:100%}.inventory-page .report-actions .button{flex:1}.inventory-table{min-width:540px}}
+
+/* Lançamento rápido: foco no teclado, confirmação imediata e auditoria compacta. */
+.inventory-form{grid-template-columns:minmax(0,2.2fr) minmax(90px,.65fr) auto;gap:10px;align-items:end}
+.inventory-form label{display:block;min-width:0}
+.inventory-form input{width:100%;min-width:0}
+.inventory-form .button{white-space:nowrap;min-width:108px}
+.inventory-result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:10px 12px;border:1px solid #dce6ef;border-radius:10px;background:#f7f9fc;color:#5b6c81;font-size:12px;min-height:40px}
+.inventory-result.success{background:#edf8f4;border-color:#c6e8db;color:#176b58}
+.inventory-result.error{background:#fff5f2;border-color:#f1d1c8;color:#9c392b}
+.inventory-result>strong{font-size:10px;letter-spacing:.045em;white-space:nowrap}
+.inventory-result>span{font-weight:700}
+.inventory-result small{margin-left:auto;color:inherit;opacity:.8;font-size:10px}
+.inventory-result-total{font-weight:800}
+.inventory-audit-panel{margin-top:-6px}
+.inventory-audit-panel .inventory-section-heading{margin-bottom:10px}
+.inventory-audit-panel .inventory-table{min-width:560px}
+.inventory-audit-panel .inventory-table td,.inventory-audit-panel .inventory-table th{padding:8px 10px}
+.inventory-audit-panel .inventory-help{margin-top:8px}
+@media(max-width:1050px){.inventory-form{grid-template-columns:minmax(0,1fr) minmax(90px,.5fr) auto}.inventory-form button{grid-column:auto}}
+@media(max-width:600px){.inventory-form{grid-template-columns:minmax(0,1fr) 82px;gap:9px}.inventory-form label:first-child{grid-column:1/-1}.inventory-form button{grid-column:1/-1;width:100%}.inventory-result{gap:7px}.inventory-result small{width:100%;margin-left:0}.inventory-audit-panel{margin-top:0}}
+
+/* Ações seguras para editar/excluir saldo na lista de itens. */
+.inventory-row-actions{white-space:nowrap;display:flex;gap:6px;align-items:center}.inventory-row-actions .button{padding:6px 9px;font-size:11px;min-height:30px}.button.danger{background:#fff0ef;border:1px solid #f0c5c2;color:#a52b27}.button.danger:hover{background:#ffe2df}.inventory-summary-panel .inventory-table{min-width:760px}

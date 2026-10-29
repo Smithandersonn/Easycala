@@ -1,0 +1,10 @@
+
+# Publicar no Netlify Drop
+
+1. Acesse https://app.netlify.com/drop em uma rede que permita o acesso.
+2. Extraia este ZIP no computador.
+3. Arraste a pasta `Escala-Kalunga-Netlify-Drop` para a área de publicação. A pasta precisa conter `index.html` diretamente na raiz.
+4. Aguarde o endereço terminado em `netlify.app`.
+5. Para atualizar o site depois, arraste novamente a pasta atualizada na área de deploy do projeto no painel Netlify.
+
+Este é um site estático (HTML, CSS e JavaScript); não precisa de comando de build. Os dados guardados no navegador continuam locais a esse navegador/dispositivo e não são sincronizados automaticamente entre funcionários.
