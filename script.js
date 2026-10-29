@@ -194,24 +194,45 @@
     host.innerHTML=`<div class="sunday-groups-grid"><section class="sunday-group sunday-group-one"><h3>Domingo 1 <span>${first.length}</span></h3><div class="sunday-people-list">${list(first,'A')}</div></section><section class="sunday-group sunday-group-two"><h3>Domingo 2 <span>${second.length}</span></h3><div class="sunday-people-list">${list(second,'B')}</div></section></div>`;
     $('#sundayAssignmentSummary').textContent=`${eligible.length} colaboradores distribuídos · ${first.length} no grupo Domingo 1 · ${second.length} no grupo Domingo 2. Jovem Aprendiz não participa.`;
   }
-  // Renderiza uma caixa independente para cada feriado reconhecido no mês.
+  // Localiza o feriado passado mais recente que tenha uma escala realmente registrada.
+  function lastRecordedHoliday(){
+    const todayKey=dateKey(today.getFullYear(),today.getMonth(),today.getDate());
+    for(let year=today.getFullYear();year>=today.getFullYear()-5;year--){
+      const candidates=Object.entries(holidaysForYear(year)).filter(([key])=>key<todayKey).sort(([a],[b])=>b.localeCompare(a));
+      for(const [key,name] of candidates){
+        const recorded=state.employees.some(emp=>Object.prototype.hasOwnProperty.call(state.holidayAssignments||{},`${emp.id}|${key}`)||Object.prototype.hasOwnProperty.call(state.statuses||{},`${emp.id}|${key}`));
+        if(!recorded)continue;
+        const worked=sortEmployees(state.employees).filter(emp=>{
+          const assignmentKey=`${emp.id}|${key}`;
+          if(Object.prototype.hasOwnProperty.call(state.holidayAssignments||{},assignmentKey))return state.holidayAssignments[assignmentKey]===true;
+          return state.statuses[assignmentKey]==='trabalha';
+        });
+        return {key,name,worked};
+      }
+    }
+    return null;
+  }
+  // Renderiza os feriados lado a lado; todos começam desmarcados se não houver escolha salva.
   function renderHolidayAssignments(){
     const host=$('#holidayAssignmentList');if(!host)return;
     const holidays=currentMonthHolidays();
-    if(!holidays.length){host.innerHTML='<p class="empty-state">Não há feriados nacionais cadastrados para este mês. Feriados estaduais e municipais podem variar conforme a localidade.</p>';$('#holidayAssignmentSummary').textContent='';return;}
-    if(!state.employees.length){host.innerHTML='<p class="empty-state">Cadastre colaboradores para montar a escala de feriados.</p>';$('#holidayAssignmentSummary').textContent='';return;}
+    const history=lastRecordedHoliday();
+    const historyHTML=history?`<section class="holiday-history-card"><header><div><h3>Último feriado com escala registrada</h3><p>${pad(Number(history.key.slice(-2)))}/${pad(Number(history.key.slice(5,7)))}/${history.key.slice(0,4)} — ${escapeHTML(history.name)}</p></div><span class="holiday-count">${history.worked.length} trabalhando</span></header><div class="holiday-history-people">${history.worked.length?history.worked.map(emp=>`<span>${escapeHTML(emp.name)}</span>`).join(''):'<p>Nenhum colaborador está registrado como trabalhando nesse feriado.</p>'}</div></section>`:'<section class="holiday-history-card"><h3>Último feriado com escala registrada</h3><p>O histórico aparecerá aqui depois que uma escala de feriado for registrada.</p></section>';
+    if(!holidays.length){host.innerHTML=historyHTML+'<p class="empty-state">Não há feriados nacionais cadastrados para este mês. Feriados estaduais e municipais podem variar conforme a localidade.</p>';$('#holidayAssignmentSummary').textContent='';return;}
+    if(!state.employees.length){host.innerHTML=historyHTML+'<p class="empty-state">Cadastre colaboradores para montar a escala de feriados.</p>';$('#holidayAssignmentSummary').textContent='';return;}
     const employees=sortEmployees(state.employees);
-    host.innerHTML=holidays.map(([key,name])=>{
+    const cards=holidays.map(([key,name])=>{
       const day=Number(key.slice(-2)),dateLabel=`${pad(day)}/${pad(viewDate.getMonth()+1)}/${viewDate.getFullYear()}`;
       const people=employees.map(emp=>{
         const assignmentKey=`${emp.id}|${key}`;
-        const checked=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,key)!=='folga';
+        const checked=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)&&state.holidayAssignments[assignmentKey]===true;
         return `<label class="holiday-person"><input type="checkbox" data-holiday-person="${escapeHTML(emp.id)}" data-holiday-date="${key}" ${checked?'checked':''}><span>${escapeHTML(emp.name)}</span><small>${checked?'Vai trabalhar':'Não trabalha'}</small></label>`;
       }).join('');
-      const working=employees.filter(emp=>{const assignmentKey=`${emp.id}|${key}`;return Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,key)!=='folga';}).length;
+      const working=employees.filter(emp=>state.holidayAssignments[`${emp.id}|${key}`]===true).length;
       return `<section class="holiday-date-card"><header><div><h3>${dateLabel} — ${escapeHTML(name)}</h3><p>Selecione quem vai trabalhar neste feriado.</p></div><span class="holiday-count">${working}/${employees.length} trabalhando</span></header><div class="holiday-people-grid">${people}</div></section>`;
     }).join('');
-    $('#holidayAssignmentSummary').textContent=`${holidays.length} feriado(s) no mês · selecione os colaboradores em cada data e aplique a escala.`;
+    host.innerHTML=historyHTML+`<div class="holiday-current-grid">${cards}</div>`;
+    $('#holidayAssignmentSummary').textContent=`${holidays.length} feriado(s) no mês · todas as pessoas começam desmarcadas. Selecione quem vai trabalhar em cada data e aplique a escala.`;
   }
   // Atualiza todas as áreas dependentes dos dados ou do mês selecionado.
   function renderAll(){renderDepartments();renderStats();renderCalendar();renderEmployees();renderReport();renderCompliance();renderPendingAndCoverage();renderSundayAssignments();renderHolidayAssignments();if($('#sundayScheduleToggle'))$('#sundayScheduleToggle').value=state.settings?.sundayScheduleEnabled===false?'no':'yes';if($('#sundayRotationPanel'))$('#sundayRotationPanel').classList.toggle('hidden',state.settings?.sundayScheduleEnabled===false);if($('#holidayScheduleToggle'))$('#holidayScheduleToggle').value=state.settings?.holidayScheduleEnabled===true?'yes':'no';if($('#holidayRotationPanel'))$('#holidayRotationPanel').classList.toggle('hidden',state.settings?.holidayScheduleEnabled!==true);$('#todayLabel').textContent=today.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});}
@@ -273,7 +294,7 @@
     const holidays=currentMonthHolidays();if(!holidays.length){showToast('Não há feriados cadastrados neste mês.');return;}if(!state.employees.length){showToast('Cadastre colaboradores antes de aplicar a escala.');return;}
     const total=holidays.length*state.employees.length;if(!confirm(`Aplicar a escala de ${holidays.length} feriado(s) para ${state.employees.length} colaborador(es)? As marcações de trabalha/folga nessas datas serão atualizadas conforme as caixas selecionadas.`))return;
     state.holidayAssignments=state.holidayAssignments||{};let applied=0;
-    holidays.forEach(([date])=>state.employees.forEach(emp=>{const assignmentKey=`${emp.id}|${date}`;const working=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)?state.holidayAssignments[assignmentKey]===true:statusOf(emp.id,date)!=='folga';state.statuses[assignmentKey]=working?'trabalha':'folga';applied++;}));
+    holidays.forEach(([date])=>state.employees.forEach(emp=>{const assignmentKey=`${emp.id}|${date}`;const working=Object.prototype.hasOwnProperty.call(state.holidayAssignments,assignmentKey)&&state.holidayAssignments[assignmentKey]===true;state.statuses[assignmentKey]=working?'trabalha':'folga';applied++;}));
     save();renderAll();showToast(`Escala aplicada: ${applied} marcações atualizadas nos feriados do mês.`);
   });
   $('#calendarContainer').addEventListener('change',e=>{const input=e.target.closest('[data-last-rest-employee]');if(!input)return;const emp=state.employees.find(x=>x.id===input.dataset.lastRestEmployee);if(!emp)return;emp.lastRestDate=input.value||'';if(!emp.lastRestDate)delete state.lastRestDates[emp.id];else state.lastRestDates[emp.id]=emp.lastRestDate;save();renderAll();showToast(emp.lastRestDate?'Última folga anterior salva.':'Data da última folga removida.');});

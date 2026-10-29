@@ -298,6 +298,14 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .month-controls .sunday-toggle-label select{max-width:110px;}
 .holiday-assignment-area{grid-column:2;min-width:0;width:100%;}
 .holiday-assignment-list{display:grid;gap:12px;min-width:0;}
+.holiday-current-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px;min-width:0;}
+.holiday-history-card{border:1px solid #d7e5e2;border-radius:12px;background:#f7fbfa;overflow:hidden;min-width:0;}
+.holiday-history-card>header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:#eaf5f2;border-bottom:1px solid #d7e5e2;}
+.holiday-history-card h3{margin:0;font-size:13px;color:#263d58;}
+.holiday-history-card p{margin:4px 0 0;font-size:11px;color:#65778a;}
+.holiday-history-people{display:flex;flex-wrap:wrap;gap:7px;padding:12px;}
+.holiday-history-people span{padding:6px 9px;border-radius:7px;background:#fff;border:1px solid #dce8e5;color:#35465d;font-size:11px;}
+.holiday-history-people p{margin:0;}
 .holiday-date-card{border:1px solid #dfe7f0;border-radius:12px;background:#fff;overflow:hidden;min-width:0;}
 .holiday-date-card>header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:#f5f8fc;border-bottom:1px solid #e4ebf3;}
 .holiday-date-card h3{margin:0;font-size:13px;color:#263d58;}

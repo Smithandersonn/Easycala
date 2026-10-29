@@ -53,3 +53,9 @@ O site agora inclui `service-worker.js` e `manifest.webmanifest`. Publique via H
 ## Escala de feriados do mês
 
 Na barra superior da escala existem dois controles independentes: ativar/desativar o revezamento de domingos e ativar/desativar o lançamento da escala de feriados. Ao ativar feriados, o sistema cria um cartão para cada feriado nacional identificado no mês selecionado. Em cada cartão, marque os colaboradores que trabalharão naquela data. A seleção é salva no navegador. O botão **Aplicar escala de feriados** pede confirmação e registra `trabalha` para os selecionados e `folga` para os demais, em cada feriado do mês. Feriados estaduais e municipais não são detectados automaticamente por não dependerem de uma localidade configurada.
+
+### Ajustes da escala de feriados
+- Cada feriado do mês aparece em cartões lado a lado quando há espaço na tela; em telas estreitas, os cartões empilham automaticamente.
+- Todos os colaboradores começam desmarcados, inclusive quando não existe seleção salva para aquele feriado. Ao aplicar, os desmarcados recebem `folga` e os marcados recebem `trabalha`.
+- O painel “Último feriado com escala registrada” procura o feriado nacional passado mais recente com marcações explícitas salvas e lista os colaboradores registrados como trabalhando.
+- Para atualizar o cache offline, a versão do service worker foi incrementada.
