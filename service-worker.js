@@ -1,5 +1,5 @@
 /* Cache offline do Planejamento de Escala. Atualize CACHE_VERSION quando alterar os arquivos. */
-const CACHE_VERSION = 'planejamento-escala-offline-v4';
+const CACHE_VERSION = 'planejamento-escala-offline-v5';
 const APP_FILES = ['./', './index.html', './styles.css', './script.js', './manifest.webmanifest', './offline-icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_VERSION).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
