@@ -27,6 +27,8 @@
 .employee-list-item .edit-employee-button{color:#3677e8;font-size:15px}.employee-list-item .edit-employee-button:hover{background:#edf4ff;color:#2459b2}
 
 .global-rule-panel{display:grid;grid-template-columns:minmax(220px,1fr) minmax(260px,360px) auto;align-items:center;gap:18px;margin:0 0 18px;padding:22px}
+.global-rule-panel #saveGlobalRule{justify-self:center;align-self:center;margin:0;min-width:132px}
+.global-rule-panel .backup-actions{align-self:center}
 .global-rule-panel h2,.compliance-panel h2{margin:0 0 6px;font-size:18px}.global-rule-panel .subtitle{margin:0}.global-rule-panel label{display:grid;gap:7px;font-size:13px;font-weight:600}.global-rule-panel select{min-height:42px;border:1px solid #d7dfeb;border-radius:10px;padding:0 12px;background:#fff;color:#24334b}
 .compliance-panel{padding:20px;margin:0 0 20px}.compliance-alerts{display:grid;gap:8px;margin-top:12px}.compliance-alert{display:grid;gap:4px;padding:12px 14px;border-radius:10px;font-size:13px}.compliance-alert span{line-height:1.45}.compliance-alert.warning{background:#fff0e5;color:#87420b;border:1px solid #f4d1b6}.compliance-alert.notice{background:#fff8dc;color:#765a00;border:1px solid #f0e2a2}.compliance-alert.success{background:#eaf7ef;color:#246342;border:1px solid #c8e8d3}
 @media(max-width:850px){.global-rule-panel{grid-template-columns:1fr}.global-rule-panel .button{width:100%}}
@@ -347,3 +349,57 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .last-rest-cell { min-width: 112px !important; width: 112px; padding: 4px 7px !important; }
 .last-rest-input { width: 100%; max-width: 104px; padding: 5px 6px; margin: 0 auto; display: block; }
 @media(max-width:600px){.last-rest-column,.last-rest-cell{min-width:108px!important;width:108px}.last-rest-input{width:100%;font-size:9px}}
+
+
+/* Refinamento: ações compactas e sem carrossel horizontal nos painéis laterais. */
+.employee-list-item{gap:7px;min-width:0;padding:8px 3px}
+.employee-list-item .details{flex:1 1 auto;min-width:0}
+.employee-action{flex:0 0 30px;width:30px;height:30px;padding:0;display:inline-grid;place-items:center;border:1px solid #dbe5f4;background:#f7faff;color:#365b91;border-radius:8px;font:600 18px/1 system-ui,sans-serif;cursor:pointer}
+.employee-action.edit-employee-button{font-size:16px}
+.employee-action.delete-employee-button{font-size:21px;border-color:#f0dada;background:#fffafa;color:#a24d4d}
+.employee-action.delete-employee-button:hover{background:#fff0f0;border-color:#e9b9b9;color:#a52f2f}
+@media(max-width:700px){
+ .right-column{display:grid!important;grid-template-columns:minmax(0,1fr)!important;flex-direction:column!important;width:100%;max-width:100%;overflow:visible!important;overflow-x:visible!important;overflow-y:visible!important;padding:0;scroll-snap-type:none;-webkit-overflow-scrolling:auto}
+ .right-column>.side-panel,.right-column>.tip-card{flex:initial;width:100%;max-width:100%;min-width:0;scroll-snap-align:none}
+ .right-column .tip-card{align-self:auto}
+}
+
+/* Realce visual durante Ctrl + arrastar para copiar status na escala. */
+.day-button.status-drag-source{outline:2px solid #245db5!important;outline-offset:1px}.day-button.status-drag-target{outline:2px dashed #245db5!important;outline-offset:1px;filter:brightness(.94)}
+
+
+/* Destaca quem trabalha em um feriado com o mesmo tom âmbar/dourado do cabeçalho do feriado. */
+.calendar-table tbody td.holiday-column .day-button.holiday-work-day {
+  background: #ffe4a3 !important;
+  color: #704600 !important;
+  border: 1px solid #e5b447 !important;
+  box-shadow: inset 0 0 0 1px #f0c96f !important;
+  font-weight: 800 !important;
+}
+@media print {
+  .calendar-table tbody td.holiday-column .day-button.holiday-work-day {
+    background: #ffe4a3 !important;
+    color: #704600 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+
+/* Layout refinado: aproveitar a largura livre do calendário em monitores grandes. */
+@media (min-width: 701px) {
+  .workspace { grid-template-columns: minmax(0, 1fr) 265px; width: 100%; }
+  .calendar-panel { width: 100%; min-width: 0; }
+  .calendar-scroll { width: 100%; overflow-x: auto; }
+  .calendar-table { width: 100%; table-layout: fixed; min-width: 0; }
+  .calendar-table thead th:first-child,
+  .calendar-table tbody th:not(.last-rest-column) { width: 155px; min-width: 155px; }
+  .calendar-table thead th:not(:first-child) { width: auto; min-width: 0; max-width: none; }
+  .calendar-table tbody td { min-width: 0; }
+  .calendar-table .last-rest-column,
+  .calendar-table .last-rest-cell { width: 108px; min-width: 108px; }
+  .calendar-table .day-button { min-width: 0; }
+}
+@media (max-width: 700px) {
+  .calendar-table { min-width: 850px; table-layout: auto; }
+}
